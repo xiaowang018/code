@@ -1,3 +1,1310 @@
+#include <stdio.h>
+int main(){
+    printf("printf(\"Hello world!\\n\");\n");
+    printf("cout << \"Hello world!\" << endl;");
+    return 0;
+}
+#include "stdio.h"
+int main(){
+    float a;
+    scanf("%f",&a);
+    int s=0;   
+        s=(int)a;           
+    printf("%d",s%10);
+}
+#include "stdio.h"
+int main(){
+    int a,b,c;
+    scanf("%d %d %d",&a,&b,&c);
+    printf("score1=%d,score2=%d,score3=%d",a,b,c);
+}
+#include "stdio.h"
+int main(){
+    printf("%c",73);
+    printf("%c",32);
+    printf("%c",99);
+    printf("%c",97);
+    printf("%c",110);
+    printf("%c",32);
+    printf("%c",100);
+    printf("%c",111);
+    printf("%c",32);
+    printf("%c",105);
+    printf("%c",116);
+    printf("%c",33);
+}
+#include "stdio.h"
+int main(){
+    char s;
+    scanf("%c",&s);
+    printf("%d",(int)s);
+}
+#include<stdio.h>
+int main(){
+	int a,i,max;
+    scanf("%d",&a);
+    int s[a];
+    max=0;
+    for(i=0;i<a;i++){
+    scanf("%d",&s[i]);
+    if(s[i]>max)
+        max=s[i];
+    }
+    printf("%d",max);
+} 
+#include<stdio.h>
+#define s 60
+int main(){
+	int h=0,f;
+	do{scanf("%d",&f);
+	while(f>=s){
+		h++;f-s;
+	}
+	printf("%d小时 %d分钟",h,f);
+	}while(f>0);
+} 
+package com.pelople;
+
+public class PerpleTest {
+    public static void main(String[] args) {
+        Person lili=new Person();
+        lili.age=12;
+        
+//        //获取内部类对象实例，方法1：new 外部类
+////        Person.Heart myHeart=new Person().new Heart();
+////        System.out.println(myHeart.beat());
+//        Person.Heart myHeart=new Person.Heart();
+//        System.out.println(myHeart.beat());
+    }
+}
+package com.pelople;
+//外部类
+public class Person {
+    int age;
+
+    //    public Heart getHeart(){
+//        return new Heart();
+//    }
+    public void eat(){
+        System.out.println("人会吃东西");
+    }
+    //成员内部类
+    class Heart{
+
+        public String beat(){
+            return age+"心脏在跳动";
+        }
+    }
+    //静态内部类
+//    static class Heart{
+//        public String beat(){
+//            return new Person().age+"心脏在跳动";
+//        }
+//    }
+}
+
+package com.tel;
+
+public interface IPhoto {
+    public void photo();
+
+}
+package com.tel;
+
+public abstract class Computer implements INet {
+    public void network(){
+
+    };
+}
+package com.tel;
+
+public interface INet {
+    public void network();
+    default void connection(){
+        System.out.println("我是接口中的默认链接");
+    };
+
+    int TEMP=20;
+}
+package com.tel;
+
+public class Camera implements IPhoto{
+    public void photo(){
+
+    }
+
+}
+package com.tel;
+
+public class FourthPhone extends ThirdPhone implements IPhoto{
+    public void photo(){
+        System.out.println("手机可以拍照");
+    }
+    public void network(){
+        System.out.println("手机可以上网");
+    }
+    public void game(){
+        System.out.println("手机可以玩游戏");
+    }
+}
+package com.tel;
+
+public class PhoneTest {
+    public static void main(String[] args) {
+        FourthPhone phone=new FourthPhone();
+        phone.call();
+        phone.message();
+        phone.vedio();
+        phone.music();
+        phone.photo();
+        phone.network();
+
+        IPhoto ip=new FourthPhone();
+        ip.photo();
+        ip=new Camera();
+        ip.photo();
+        System.out.println(INet.TEMP);
+
+    }
+}
+package com.tel;
+
+public class SecondPhone extends TelPhone{
+    public void message(){
+        System.out.println("手机可以发短信");
+    }
+}
+package com.tel;
+
+public class ThirdPhone extends SecondPhone{
+    public void vedio(){
+        System.out.println("手机可以看视频");
+    }
+    public void music(){
+        System.out.println("手机可以听音乐");
+    }
+}
+
+package com.tel;
+
+public class TelPhone {
+    private String brand;
+    private int price;
+    public TelPhone(){
+
+    }
+    public void call(){
+        System.out.println("手机可以打电话");
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+}
+
+#include<stdio.h>
+int main()
+{
+    int a,b,c;
+    scanf("%d %d %d",&a,&b,&c);
+    printf("%d/%d/%d",c,b,a);
+    return 0;
+}
+#include<stdio.h>
+int main(){
+    int a,b,c,d;
+    scanf("%d %d %d %d",&a,&b,&c,&d);
+    printf("%.1f",a*0.2+b*0.1+c*0.2+d*0.5);
+}
+package zy;
+#include<stdio.h>
+int main(){
+    int a;    
+    scanf("%d",&a);
+    if(a>100||a<0)
+        printf("F");
+    else if(a>=90)
+        printf("A");
+    else if(a>=80)
+        printf("B");
+    else if(a>=70)
+        printf("C");
+    else if(a>=60)
+        printf("D");
+    else if(a>=0)
+        printf("E");        
+}
+#include<stdio.h>
+int main(){
+    int a,b,c;
+    scanf("%d %d %d",&a,&b,&c);
+   if((a+b+c)>=180)
+    printf("NO");
+    else
+        printf("YES");
+}
+#include<stdio.h>
+int main(){
+    int a,b,c,d;
+    scanf("%d %d %d %d",&a,&b,&c,&d);
+    if(b>a)a=b;
+    if(c>a)a=c;
+    if(d>a)a=d;
+    printf("%d",a);
+}
+#include<stdio.h>
+int main(){
+    double a,b,c;
+    scanf("%lf %lf %lf",&a,&b,&c);
+    printf("%.2f %.2f",a+b+c,(a+b+c)/3.0);
+}
+public interface IFly {
+    public void fly();
+}package zy;
+
+public class Plane implements IFly {
+    public void fly(){
+        System.out.println("飞机在天上飞");
+    }
+}package zy;
+
+public class Bird implements IFly {
+    public void fly(){
+        System.out.println("小鸟在太空翱翔");
+    }
+}package zy;
+
+public class Balloon implements IFly {
+    public void fly(){
+        System.out.println("气球飞上天空");
+    }
+}package zy;
+
+public class test {
+    public static void main(String[] args) {
+        Plane one=new Plane();
+        Bird tow=new Bird();
+        Balloon thr=new Balloon();
+        one.fly();
+        tow.fly();
+        thr.fly();
+
+    }
+
+}
+
+
+
+package jicheng;
+
+public class Test {
+    public static void main(String[] args) {
+//        Animal one=new Animal();
+        Animal two=new Cat();
+        Animal three=new Dog();
+//        one.eat();
+        two.eat();
+        three.eat();
+        System.out.println("============================");
+        if(two instanceof Cat){
+            Cat temp=(Cat)two;
+            temp.eat();
+            temp.run();
+            temp.getWeight();
+            System.out.println("two可以转换为Cat类型");
+        }
+    }
+}
+
+package jicheng;
+
+public class MasterTest {
+    public static void main(String[] args) {
+        Master master=new Master();
+        Cat one=new Cat();
+        Dog two=new Dog();
+        master.feed(one);
+        master.feed(two);
+        System.out.println("====================");
+        boolean isManyTime=false;
+        Animal temp=master.raise(isManyTime);
+//        if(isManyTine){
+//            temp=master.hasManyTime();
+//        }else {
+//            temp=master.hasLittleTing();
+//        }
+        System.out.println(temp);
+    }
+}
+
+package jicheng;
+
+public class Master {
+    //public void feed(Cat cat){
+    //cat.eat();
+  //  cat.playBall();
+ //   }
+  //  public void feed(Dog dog){
+  // /    dog.eat();
+ // / /     dog.sleep();
+  //  }
+    public void feed(Animal obj){
+        if(obj instanceof Cat){
+            Cat temp=(Cat)obj;
+            temp.eat();
+            temp.playBall();
+        }else if(obj instanceof Dog){
+            Dog temp=(Dog)obj;
+            temp.eat();
+            temp.sleep();
+        }
+    }
+//    public Dog hasManyTime(){
+//        System.out.println("主人休闲时间充足，适合养狗狗");
+//        return new Dog();
+//    }
+//    public Cat hasLittleTing(){
+//        System.out.println("主人平时笔记忙，适合养猫咪");
+//        return new Cat();
+//    }
+
+    public Animal raise(boolean isManyTime){
+        if(isManyTime){
+            System.out.println("主人休闲时间充足，适合养狗狗");
+            return new Dog();
+        }else {
+            System.out.println("主人比较笔记忙，适合养猫咪");
+            return new Cat();
+        }
+    }
+}
+
+package jicheng;
+
+public class Dog extends Animal{
+    private String sex;
+    public Dog(){
+
+    }
+    public Dog(String name,int month,String sex){
+        this.setMonth(month);
+        this.setName(name);
+        this.setSex(sex);
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+    public void sleep(){
+        System.out.println("小狗有午睡的习惯");
+    }
+
+    @Override
+    public void eat() {
+        System.out.println("狗吃肉");
+    }
+}
+
+package jicheng;
+
+public class Cat extends Animal {
+    private double weight;
+    public Cat(){
+
+    }
+    public Cat(String name,int month,double weight){
+        super(name,month);
+        this.weight=weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+    public void run(){
+        System.out.println("小猫快乐的奔跑");
+    }
+    @Override
+    public void eat(){
+        System.out.println("猫吃鱼");
+    }
+
+    public void playBall() {
+        System.out.println("小猫喜欢玩线球");
+    }
+}
+
+package jicheng;
+
+public abstract class Animal {
+    private String name;
+    private int month;
+    public Animal(){}
+    public Animal(String name,int month){
+        setName(name);
+        setMonth(month);
+    }
+
+    public abstract void eat();
+    public String getName() {
+        return name;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+
+
+}
+
+package zy;
+
+public class Rectangle extends Shape {
+
+    @Override
+    public double area() {
+        return mj;
+    }
+    public Rectangle (double length,double wide){
+        mj= length*wide;
+    }
+}
+
+package zy;
+
+public class Test {
+    public static void main(String[] args) {
+       Circle one= new Circle(3.5);
+       System.out.println("园的面积为："+one.area());
+        Rectangle two= new Rectangle(6,5);
+        System.out.println("矩形的面积为："+two.area());
+    }
+}
+
+package zy;
+
+public  class Circle extends Shape {
+
+    @Override
+    public double area() {
+        return mj;
+    }
+    public Circle(double r){
+        mj= r*r*3.14;
+    }
+
+}
+
+package zy;
+
+public abstract class Shape {
+   double r,length,wide,mj;
+    public abstract double area();
+}
+
+public class SingletonTow {
+    private SingletonTow(){}
+    private static SingletonTow instance=null;
+    public static SingletonTow getInstance(){
+        if(instance==null)
+            instance=new SingletonTow();
+        return instance;
+    }
+
+}
+
+
+public class SingletonOne {
+    private SingletonOne(){
+
+    }
+    private static SingletonOne instance= new SingletonOne();
+
+    public static SingletonOne getInstance(){
+
+        return instance;
+    }
+}
+
+
+public class Test {
+    public static void main(String[] args) {
+        //SingletonOne one=new SingletonOne();
+        SingletonOne one=SingletonOne.getInstance();
+        SingletonOne two=SingletonOne.getInstance();
+        System.out.println(one);
+        System.out.println(two);
+        SingletonTow one1=SingletonTow.getInstance();
+        SingletonTow two2=SingletonTow.getInstance();
+        System.out.println(one1);
+        System.out.println(two2);
+    }
+}
+
+任务
+思路分析 1、创建⼀个	Person	类继承⾃	Object，其中类的结构要求为：  	 	 	属性：name（姓名）、age(年龄)、sex（性别）  	 	 	⽅法： 创建带参（name、age、sex为参数）构造⽅法 重写	toString	⽅法，输出信息格式为：姓名：**	年龄：**	性别：**（其中，**为对象对应属 性值）
+2、创建测试类，在测试⽅法中，实例化	Person对	象，并传⼊三个属性值。然后，分别通过直接打印P erson对象以及利⽤重写的	toString	⽅法，打印输出2⾏对象信息。
+package com.xx;
+
+public class Test1 {
+    public static void main(String[] args) {
+        Person one=new Person("小明",18,"男");
+        System.out.println(one);
+        System.out.println(one.toString());
+    }
+}
+
+package com.xx;
+
+public class Person {
+    String name;
+    int age;
+    String sex;
+
+    public Person(String name,int age,String sex){
+        setName(name);
+        setAge(age);
+        setSex(sex);
+    }
+
+    @Override
+    public String toString() {
+        return "name='" + name + '\'' +
+                ", age=" + age +
+                ", sex='" + sex + '\'' ;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+}
+
+package com.proj;
+
+public class TestThree {
+    public static void main(String[] args) {
+        Animal one=new Animal();
+        Animal two=new Animal();
+        boolean flag=one.equals(two);
+        System.out.println("one和two的引用比较"+flag);
+        System.out.println("one和two的引用比较"+(one==two));
+        System.out.println("------------------------------");
+        String str1=new String("hello");
+        String str2=new String("hello");
+        flag=str1.equals(str2);
+        System.out.println("str1和str2的引用比较"+flag);
+        System.out.println("str1和str2的引用比较"+(one==two));
+        System.out.println("------------------------------");
+        System.out.println(one.toString());
+        System.out.println(one);
+        System.out.println("------------------------------");
+        System.out.println(str1);
+        
+    }
+}
+package geek;
+
+public class a1 {
+    public static void main(String[] args) {
+        try {
+            int [] arr=new int[1];
+            arr[1]=9;
+        }
+       catch (Exception ex){
+            ex.printStackTrace();
+       }
+        try {
+            String str="";
+            str.substring(9,10);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        System.out.println("执行结束");
+    }
+}
+2-22	编程练习
+编程练习：某公司要开发“XX⻋⾏管理系统”，请使⽤⾯向对象的思想，设计⾃定义类描述⾃⾏⻋、电动
+⻋和三轮⻋。
+程序参考运⾏效果图如下：
+
+package com.car;
+
+public class fu {
+    public String coo;
+    public String pai;
+    public int tai;
+    public int zyi;
+    public fu(){
+
+    }
+
+    public fu(String coo,String pai){
+        setCoo(coo);
+        setPai(pai);
+    }
+    public fu(String coo,String pai,int tai,int zyi){
+        setCoo(coo);
+        setPai(pai);
+        setTai(tai);
+        setZyi(zyi);
+    }
+    public void setCoo(String coo) {
+        this.coo = coo;
+    }
+
+    public void setPai(String pai) {
+        this.pai = pai;
+    }
+
+    public void setTai(int tai) {
+        this.tai = tai;
+    }
+
+    public void setZyi(int zyi) {
+        this.zyi = zyi;
+    }
+
+    public int getTai() {
+        return tai;
+    }
+
+    public int getZyi() {
+        return zyi;
+    }
+
+    public String getCoo() {
+        return coo;
+    }
+
+    public String getPai() {
+        return pai;
+    }
+
+    public void get() {System.out.println("这是⼀辆"+coo+"颜⾊的，"+pai+"牌的⾮机动⻋，有"+tai+"个轮⼦，有"
+            +zyi+"个座椅");
+    }
+}
+
+package com.car;
+
+public class ddc extends fu {
+    String dcp;
+    ddc(String dcp){
+        this.dcp=dcp;
+    }
+    public void get(){
+        System.out.println("这是一辆使⽤"+dcp+"牌电池的电动⻋。");
+    }
+}
+
+package com.car;
+
+public class slc extends fu {
+    slc(int tai){
+        this.tai=tai;
+    }
+    public void get(){
+        System.out.println("三轮⻋是⼀款有"+tai+"个轮⼦的⾮机动⻋");
+    }
+}
+
+package com.car;
+
+public class zxc extends fu {
+        zxc(String coo,String pai){
+            setCoo(coo);
+            setPai(pai);
+        }
+    public void get(){
+            System.out.println("这是一辆"+coo+"颜色的,"+pai+"牌的自行车。");
+    }
+}
+
+package com.car;
+
+public class test {
+    public static void main(String[] args) {
+            fu a=new fu("红","天宇",4,2);
+            a.get();
+        zxc a1=new zxc("黄色","捷安特");
+        a1.get();
+        ddc a2=new ddc("飞哥");
+        a2.get();
+        slc a3=new slc(3);
+        a3.get();
+
+    }
+
+}
+
+-----------------------------------------------------------------------------
+2-8	编程练习
+package com.bug;
+
+public class test {
+    public static void main(String[] args) {
+        cs noe=new cs("测试",10,5);
+        yf two=new yf("研发",1000,10);
+        System.out.println("父类信息测试：开心工作");
+        noe.sca();
+        two.sca();
+    }
+
+}
+
+package com.bug;
+
+public class yf extends kxgz{
+    public yf(String name,int shu,int bug){
+        setName(name);
+        setShu(shu);
+        setBug(bug);
+    }
+    public void sca(){
+        System.out.println(this.getName()+"工作类信息测试："+this.getName()+
+                "工作的日报是：今天编写了"+this.getShu()+"行代码，目前仍然有"
+                +this.getBug() +"个bug没有解决");
+    }
+
+
+}
+
+package com.bug;
+
+public class cs extends kxgz {
+
+    public cs(String name,int shu,int bug){
+        setName(name);
+        setShu(shu);
+        setBug(bug);
+    }
+    public void sca(){
+        System.out.println(this.getName()+"工作类信息测试："+this.getName()+
+                "工作的日报是：今天编写了"+this.getShu()+"个测试用例，发现了"
+                +this.getBug() +"个bug");
+    }
+
+}
+
+package com.bug;
+
+public class kxgz {
+    private String name;
+    private int shu;
+    private int bug;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setBug(int bug) {
+        this.bug = bug;
+    }
+
+    public void setShu(int shu) {
+        this.shu = shu;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getBug() {
+        return bug;
+    }
+
+    public int getShu() {
+        return shu;
+    }
+}
+
+======================员工作业=================-====---
+package com.xx;
+
+public class Test {
+
+    public static void main(String[] args) {
+        Team rs=new Team();
+        Team sc=new Team();
+        rs.team="人事部";
+        sc.team="市场部";
+
+        Ru s1=new Ru("小米","s001","男",
+                20,rs,rs.jl);
+        System.out.println(s1.introduction());
+        Ru s2=new Ru("小2","s002","女",
+                20,rs,rs.zl);
+        System.out.println(s2.introduction());
+        Ru s3=new Ru("小3","s003","男",
+                20,rs,rs.zy);
+        System.out.println(s3.introduction());
+        Ru s4=new Ru("小4","s004","女",
+                20,sc,sc.zy);
+        System.out.println(s4.introduction());
+        Ru s5=new Ru("小5","s005","男",
+                20,sc,sc.jl);
+        System.out.println(s5.introduction());
+        Ru s6=new Ru("小6","s006","女",
+                20,sc,sc.zy);
+        System.out.println(s6.introduction());
+        System.out.println(rs.team+"总共有"+rs.rs+"名员工");
+        System.out.println(sc.team+"总共有"+sc.rs+"名员工");
+    }
+
+}
+
+package com.xx;
+
+public class Ru {
+    String name;
+    String id;
+    String sex;
+    int age;
+    String team;
+    String zw;
+
+    public Ru(String name,String id,String sex,
+              int age,Team team,String zw){
+        this.setName(name);
+        this.setId(id);
+        this.setSex(sex);
+        this.setAge(age);
+        this.setTeam(team.team);
+        team.rs+=1;
+        this.setZw(zw);
+    }
+    public String introduction(){
+        String str="姓名:"+this.getName()+"\n"
+                +"工号:"+this.getId()+"\n"
+                +"性别:"+this.getSex()+"\n"
+                +"年龄:"+this.getAge()+"\n"
+                +"职务:"+this.getTeam()+this.getZw()+"\n" +
+                "===============================";
+        return str;
+
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setAge(int age) {
+        if(age>=18&&age<=65)
+        this.age = age;
+        else
+            this.age=18;
+
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setSex(String sex) {
+        if(sex=="男"||sex=="女")
+        this.sex = sex;
+        else
+            this.sex="男";
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setTeam(String team) {
+        this.team = team;
+    }
+
+    public String getTeam() {
+        return team;
+    }
+
+    public void setZw(String zw) {
+        this.zw = zw;
+    }
+
+    public String getZw() {
+        return zw;
+    }
+}
+
+package com.xx;
+
+public class Team {
+    String team;
+    int rs=0;
+    String jl="经理";
+    String zl="助理";
+    String zy="职员";
+}
+===================================================================
+#include <stdio.h>
+int main(){
+    int a,c=0;
+    int b=1;
+    int i,j;
+    scanf("%d",&a);
+    for(j=1;j<=a;j++){
+    for(i=1;i<=j;i++)
+    {
+        b*=i;
+    }
+        c+=b;
+        b=1;
+    }
+    printf("%d",c);
+}
+package com.mooc.model;
+
+public class Subject {
+    private String subjectNome;
+    private String subjectNO;
+    private int subjectLife;
+    private Student[] myStudents;
+    private int studentNum;
+    public Subject(){
+    }
+    public Subject(String subjectNome,String subjectNO,int subjectLife){
+        this.setSubjectNome(subjectNome);
+        this.setSubjectNO(subjectNO);
+        this.setSubjectLife(subjectLife);
+    }
+    public Subject(String subjectNome,String subjectNO,int subjectLife,Student[] myStudents){
+        this.setSubjectNome(subjectNome);
+        this.setSubjectNO(subjectNO);
+        this.setSubjectLife(subjectLife);
+        this.setMyStudents(myStudents);
+    }
+
+    public void setMyStudents(Student[] myStudents) {
+        this.myStudents = myStudents;
+    }
+
+    public void setStudentNum(int studentNum) {
+        this.studentNum = studentNum;
+    }
+
+    public int getStudentNum() {
+        return studentNum;
+    }
+
+    /**
+     * 获取选修专业的学生信息的 如果没有被初始化 先初始化200
+     * @return 保存学生信息的数组
+     */
+    public Student[] getMyStudents() {
+        if(this.myStudents==null)
+            this.myStudents=new Student[200];
+        return myStudents;
+    }
+
+    public void setSubjectNome(String subjectNome){
+        this.subjectNome=subjectNome;
+    }
+    public void setSubjectNO(String subjectNO){
+        this.subjectNO=subjectNO;
+    }
+    public void setSubjectLife(int subjectLife){
+        if(subjectLife<=0)
+            return;
+        this.subjectLife=subjectLife;
+    }
+
+    public int getSubjectLife() {
+        return subjectLife;
+    }
+
+    public String getSubjectNO() {
+        return subjectNO;
+    }
+
+    public String getSubjectNome() {
+        return subjectNome;
+    }
+    public String info(){
+        String str="专业的信息如下：\n专业名称"+this.getSubjectNome()+
+                "\n专业的编号"+this.getSubjectNO()+"\n学制年限"
+                +this.getSubjectLife()+"年";
+        return str;
+    }
+    public void addStudent(Student stu){
+        /**
+         * 1.将学生保存到数组
+         * 2.将学生个数保存到studentNun
+         */
+        for(int i=0;i<this.getMyStudents().length;i++){
+            if (this.getMyStudents()[i]==null) {
+                this.getMyStudents()[i]=stu;
+                this.studentNum=i+1;
+                return;
+            }
+        }
+
+    }
+}
+package com.mooc.test;
+
+import com.mooc.model.Student;
+import com.mooc.model.Subject;
+
+public class SchoolTest {
+    public static void main(String[] args) {
+        Subject sub1=new Subject("计算机科学应用",
+                "j0001",4);
+            System.out.println(sub1.info());
+            System.out.println("=======================================");
+        Student stu1=new Student("s01","张三",
+                "男",6,sub1);
+        System.out.println(stu1.introduction());
+        System.out.println("=======================================");
+        Student stu2=new Student("s02","李四","女",18);
+        System.out.println(stu2.introduction("计算机科学应用",4));
+        System.out.println("=======================================");
+        Student stu3=new Student("s03","ss","男",19);
+        System.out.println(stu3.introduction(sub1));
+        System.out.println("=======================================");
+        sub1.addStudent(stu1);
+        sub1.addStudent(stu2);
+        sub1.addStudent(stu3);
+        System.out.println(sub1.getSubjectNome()+"的专业有"+sub1.getStudentNum()+"学生");
+    }
+}
+package com.mooc.model;
+
+public class Student {
+    //成员：学号、项目、性别、年龄
+    private String studentNO;
+    private String studentName;
+    private String studentSex;
+    private int studentAge;
+    private Subject studentSubject;
+
+    //无参构造
+    public Student(){
+
+    }
+    public Student(String studentNO,String studentName,
+                   String studentSex,int studentAge,
+                   Subject studentSubject){
+        this.setStudentNO(studentNO);
+        this.setStudentName(studentName);
+        this.setStudentSex(studentSex);
+        this.setdentAge(studentAge);
+        this.setstudentSubject(studentSubject);
+
+    }
+    public Student(String studentNO,String studentName,
+                   String studentSex,int studentAge){
+        this.setStudentNO(studentNO);
+        this.setStudentName(studentName);
+        this.setStudentSex(studentSex);
+        this.setdentAge(studentAge);
+
+    }
+
+
+    public void setdentAge(int studentAge) {
+        if(studentAge<10||studentAge>100)
+            this.studentAge=18;
+        else
+            this.studentAge = studentAge;
+    }
+
+    /**
+     *
+     * @return 专业信息
+     */
+    public Subject getStudentSubject(){
+        if(this.studentSubject==null)
+            this.studentSubject=new Subject();
+        return studentSubject;
+    }
+
+    public void setstudentSubject(Subject studentSubject) {
+        this.studentSubject = studentSubject;
+    }
+    public void setStudentSex(String studentSex) {
+        if(studentSex=="男"||studentSex=="女")
+            this.studentSex = studentSex;
+        else
+            this.studentSex="男";
+    }
+
+    public void setStudentNO(String studentNO) {
+        this.studentNO = studentNO;
+    }
+
+    public void setStudentSubject(Subject studentSubject) {
+        this.studentSubject = studentSubject;
+    }
+
+
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
+
+
+    public String getStudentSex() {
+        return studentSex;
+    }
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public String getStudentNO() {
+        return studentNO;
+    }
+
+    public int getStudentAge() {
+        return studentAge;
+    }
+
+    /*
+                                    学习自我介绍信息
+                                     */
+    public String introduction(){
+        String str="学生信息如下：\n姓名"+this.getStudentName()
+                +"学号："+this.getStudentNO()+"\n性别："+
+                this.getStudentSex()+"\n年龄："+this.getStudentAge()
+                +"\n所报专业名称" +this.studentSubject.getSubjectNome()+
+                "\n学制年限："+this.studentSubject.getSubjectLife();
+                return str;
+    }
+
+    /**
+     * @param subjectName 专业名称
+     * @param subjectLife   专业年限
+     * @return  自我介绍
+     */
+    public String introduction(String subjectName,int subjectLife){
+        String str="学生信息如下：\n姓名"+this.getStudentName()
+                +"学号："+this.getStudentNO()+"\n性别："+
+                this.getStudentSex()+"\n年龄："+
+                this.getStudentAge()+"\n所报专业名称"
+                +subjectName+"\n学制年限："+subjectLife;
+        return str;
+    }
+
+    /**
+     *
+     * @param msSubject 专业的对象
+     * @return  
+     */
+    public String introduction(Subject msSubject){
+        String str="学生信息如下：\n姓名"+this.getStudentName()
+                +"学号："+this.getStudentNO()+"\n性别："+
+                this.getStudentSex()+"\n年龄："+
+                this.getStudentAge()+"\n所报专业名称"
+                +msSubject.getSubjectNome()+"\n学制年限："
+                +msSubject.getSubjectLife()+"\n专业编号"
+                +msSubject.getSubjectNO();
+        return str;
+    }
+}
+牛客网
+#include <stdio.h>
+int main(){
+    printf("Practice makes perfect!");
+}
+#include <stdio.h>
+int main(){
+      int a;
+    scanf("%d",&a);
+    int s[a];
+   int i;
+    int min=100;
+    int max=0;
+    for(i=0;i<a;i++)
+    {
+        scanf("%d",&s[i]);
+        if(s[i]>max)max=s[i];
+        if(s[i]<min)min=s[i];
+    }
+    printf("%d",max-min);
+}
+#include <stdio.h>
+int main(){
+      int a;
+    scanf("%d",&a);
+    int s[a];
+    int i,j=1,k=1,l=1;
+    scanf("%d",&s[0]);
+    for(i=1;i<a;i++)
+    {
+        scanf("%d",&s[i]);
+       if(s[i]<s[i-1])j++;
+    if(s[i]>s[i-1])k++;
+        if(s[i]==s[i-1])l++;
+    }
+    if(j==i||k==i||l==i)
+    printf("sorted");
+    else
+        printf("unsorted");
+}
+
 package ui;
 
 import javax.imageio.ImageIO;
