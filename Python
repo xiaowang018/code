@@ -1,0 +1,1823 @@
+《Python编程从入门到实践》
+15.2.5
+import matplotlib.pyplot as plt
+# x_values=[1,2,3,4,5]
+# y_values=[1,4,9,16,25]
+x_values=list(range(1,1001))
+y_values=[x**2 for x in x_values]
+plt.scatter(x_values,y_values,s=100)
+plt.title("Square Numbers",fontsize=24)
+plt.xlabel("Value",fontsize=14)
+plt.tick_params(axis='both',which='major',labelsize=14)
+plt.axis([0,1100,0,1100000])
+plt.show()
+import pymysql
+import matplotlib.pyplot
+
+squares = [1, 4, 9, 16, 25]
+matplotlib.pyplot.plot(squares, linewidth=5)
+matplotlib.pyplot.title("Square Numbers", fontsize=24)
+matplotlib.pyplot.xlabel("Value", fontsize=14)
+matplotlib.pyplot.ylabel("Square of Value", fontsize=14)
+matplotlib.pyplot.tick_params(axis='both', labelsize=14)
+
+matplotlib.pyplot.show()
+
+
+class Mysql:
+    def __init__(self):
+        self.conn = pymysql.connect(host="localhost", port=3306, user="root", passwd="123456", db="student",
+                                    charset="UTF8")
+        self.cursor = self.conn.cursor()
+
+    def selectStudent(self):
+        sqlstr = 'SELECT * FROM st_info'
+        self.cursor.execute(sqlstr)
+        data = self.cursor.fetchall()
+        for d in data:
+            print('sid:{0} \t sName:{1} \t sAge:{2}'.format(d[0], d[1], d[2]))
+
+    def insertStudent(self):
+        name = input("请输入插入的name:")
+        age = int(input("请输入插入的age:"))
+        sqlstr = 'INSERT into st_info VALUES (default,"%s",%d)'%(name,age)
+        self.cursor.execute(sqlstr)
+        self.conn.commit()
+    def deleteStudent(self):
+        id = int(input("请输入删除对象的id:"))
+        sqlstr = 'DELETE FROM st_info WHERE sId=%d'%(id)
+        self.cursor.execute(sqlstr)
+        self.conn.commit()
+    def updateStudent(self):
+        id=int(input("请输入删改对象的id:"))
+        name=input("请输入修改后的name:")
+        age=int(input("请输入修改后的age:"))
+        sqlstr='UPDATE st_info SET sName="%s",sAge=%d WHERE sId=%d'%(name,age,id)
+        self.cursor.execute(sqlstr)
+        self.conn.commit()
+
+    def closeStudent(self):
+        self.conn.close()
+from mysql import Mysql
+
+
+def title():
+    print("*************************请选择序号*************************")
+    print("1.查询数据")
+    print("2.修改数据")
+    print("3.插入数据")
+    print("4.删除数据")
+    print("0.退出")
+    print("*************************---end---*************************")
+
+title()
+sq=Mysql()
+i=''
+while i!='0':
+    i=input('请输入序号：')
+    if i=='1':
+        sq.selectStudent()
+    elif i=='2':
+        sq.updateStudent()
+    elif i=='3':
+        sq.insertStudent()
+    elif i=='4':
+        sq.deleteStudent()
+    elif i=='0':
+        print("系统已退出")
+    else:
+        print("输入错误请重新输入")
+        title()
+
+sq.closeStudent()
+# # places={'xioawang':'123','asd':"546",'ads':'564'}
+# # print(places)
+#
+#
+# # sandwich_orders=['1','2','3']
+# # finished_sandwiches=[]
+# # for i in sandwich_orders:
+# #     print(i)
+# #     finished_sandwiches.append(i)
+# # print('I made your tuna sandwich')
+# # print(finished_sandwiches)
+# #
+# # sandwich=['pastrami','pastrami','pastrami']
+# # while 'pastrami' in sandwich:
+# #     sandwich.remove("pastrami")
+# #
+# # print(sandwich)
+#
+# # def make_album(name,bname,size=''):
+# #     d={}
+# #     d['name']=name
+# #     d['bname']=bname
+# #     if size !='':
+# #         d['size']=size
+# #     return d
+# #
+# # a=make_album('2','7',56)
+# # print(a)
+#
+# def show_magicians(name):
+#     for i in name:
+#         print(i)
+#
+# def make_great(name,name2):
+#     for i in range(0,len(name)):
+#         name2.append(name[i]+"theGreat")
+#
+#
+#
+#
+# name=['1','2','3','4','5']
+# name2=[]
+# make_great(name,name2)
+# show_magicians(name)
+# show_magicians(name2)
+#
+# def mak(*ad):
+#     print(ad)
+#
+# mak('asfasf','sfsg','dgdg')
+
+
+#
+# def kk(name,mkae,**asd):
+#     k={}
+#     k['name']=name
+#     k['mkae']=mkae
+#     for key,value in asd.items():
+#         k[key]=value
+#     print(k)
+#     return k
+#
+# car=kk('asd','asf',color='asd',dasd='asf')
+
+# class Restaurant:
+#     def __init__(self,restaurant_name,cuisine_type):
+#         self.restaurant_name='465'
+#         self.cuisine_type='56'
+#
+#
+#     def describe_restaurant(self):
+#         print(self.restaurant_name)
+#         print(self.cuisine_type)
+#
+#     def open_restaurant(self):
+#         print(666)
+#
+#
+# d=Restaurant('asd','asf')
+# d.describe_restaurant()
+# d.open_restaurant()
+
+
+# with open('learning_python.txt') as file_object:
+#     contents=file_object.read()
+#     print(contents)
+#
+# with open('learning_python.txt') as file_object:
+#     for line in file_object:
+#         print(line)
+#
+# with open('learning_python.txt') as file_object:
+#     li=''
+#     list=file_object.readlines()
+#     li=li+str(list)
+# #
+# # print(li.replace('python','c'))
+# with open('learning_python.txt','w') as file_object:
+#     while not name=='0':
+#         name=input('请输入名字：')
+#         file_object.write(name+'\n')
+#         print(name + 'hi')
+
+# with open('learning_python.txt','w') as flie:
+#     n=''
+#     while n!='0':
+#         n=input()
+#         flie.write(n+'\n')
+# a=input()
+# b=input()
+# a=int(a)+int(b)
+
+try:
+    a=input()
+    b=input()
+    a=int(a)+int(b)
+    print(a)
+except ValueError:
+    print('2数字')
+import time
+error_count = []
+di = []
+lock_name = []
+lock_di = []
+
+
+def passs(LoginName, Password):
+    if error_count.count(LoginName) < 3 and not LoginName + '\n' in lock_di:
+        if 'LoginName:' + LoginName + '\n' in di:
+            i = di.index('LoginName:' + LoginName + '\n')
+            if 'Password:' + Password + '\n' == di[i + 1]:
+                print('登录成功')
+            else:
+                print('密码或用户名错误')
+                time60()
+                error_count.append(LoginName)
+        else:
+            print('密码或用户名错误')
+            time60()
+            error_count.append(LoginName)
+    else:
+        lock_name.append(LoginName + '\n')
+        print(LoginName + '已锁定')
+
+
+def time60():
+    i = 60
+    while i:
+        print(i, end='')
+        print('秒后重试')
+        i = i - 1
+        # time.sleep(1)
+
+
+while True:
+    LoginName = input('请输入用户名：')
+    Password = input('请输入密码：')
+    fp = open('login.txt')
+    fp2 = open('log2.txt')
+    fp3 = open('log2.txt', 'a')
+    lock_di = fp2.readlines()
+    di = fp.readlines()
+    passs(LoginName, Password)
+    fp3.writelines(lock_name)
+    fp.close()
+    fp2.close()
+    fp3.close()
+
+class Fruit:
+    fName = ''
+    fType = ''
+
+    def __init__(self, name, type):
+        self.fName = name
+        self.fType = type
+
+    def FIntroduce(self):
+        print('我是%s，类型是%s水果' % (self.fName, self.fType))
+
+
+class Vegetables:
+    vName = ''
+    vType = ''
+
+    def __init__(self, name, type):
+        self.vName = name
+        self.vType = type
+
+    def VIntroduce(self):
+        print('我是%s，类型是%s蔬菜' % (self.vName, self.vType))
+
+
+class Tomato(Fruit, Vegetables):
+    colour = ''
+    weight = 0
+
+    def __init__(self,name,ftype,vtype,colour,weight):
+        Fruit.fName=name
+        Fruit.fType=ftype
+        Vegetables.vName=name
+        Vegetables.vType=vtype
+        self.colour=colour
+        self.weight=weight
+
+    def TIntroduce(self):
+        Fruit.FIntroduce(self)
+        Vegetables.VIntroduce(self)
+        print('颜色为%s重量为%dg'%(self.colour,self.weight))
+
+
+
+--------------
+class Circle:
+    rad=0
+    Cper = 0
+    Carea = 0
+    def __init__(self,rad):
+        self.rad=rad
+
+    def CPer(self):
+        self.Cper=self.rad*2*3.14
+
+    def CArea(self):
+        self.Carea=3.14*self.rad*self.rad
+
+class Square:
+    length=0
+    wide=0
+    Sper = 0
+    Sarea = 0
+    def __init__(self,length,wide):
+        self.length=length
+        self.wide=wide
+
+    def SPer(self):
+        self.Sper=(self.length+self.wide)*2
+
+    def SArea(self):
+        self.Sarea=self.wide*self.length
+
+class shade(Circle,Square):
+    sper=0
+    sarea=0
+
+    def __init__(self,rad,length,wide):
+        Circle.__init__(self,rad)
+        Square.__init__(self,length,wide)
+        self.CPer()
+        self.CArea()
+        self.SArea()
+        self.CArea()
+
+    def sPer(self):
+        self.sper=self.Cper+self.Carea
+        return self.sper
+
+    def sArea(self):
+        self.sarea=self.Carea-self.Sarea
+        return self.sarea
+
+----------------
+#import pygame
+import sys
+# # print('hello world')
+# s0 = "python"
+# s1 = "C++"
+# s2 = s0 + s1
+# print(s2)
+# f = 'abcdefghijklmnopqrstuvwxyz'
+# print(f[5])
+# print(f[0:10:2])
+# print(f[:10:2])
+# print(f[0:10])
+# print(f[:10])
+# print(f[10:])
+print(ord('a'))
+print(chr(97))
+score = input('请输入数学成绩：')
+print(score)
+pygame.init()
+
+# fonts= pygame.font.get_fonts()
+# print(fonts)
+
+screen = pygame.display.set_mode((500,500))
+red = pygame.Color(255,0,0)
+# font=pygame.font.SysFont('华文新魏',40,True,True)
+# font=pygame.font.Font('msyh.ttc',40)
+# text = font.render('得分',True,red)
+# bg_music=pygame.mixer.music.loa/d('m/bullet.mp3')
+# pygame.mixer.music.play(-1)
+
+image=pygame.image.load('t/hero1.png')
+image2=pygame.image.load('t/hero2.png')
+
+clock=pygame.time.Clock()
+counter=0
+
+while True:
+    counter+=1
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+    clock.tick(60)
+    screen.fill(pygame.Color(255,255,255))
+    # screen.blit(text,(20,20))
+
+    if counter % 2 ==0:
+        screen.blit(image,(20,20))
+    else :
+        screen.blit(image2,(20,20))
+    pygame.display.flip()
+
+范围取值：列表变量=原列表变量[起始索引：结束索引]
+# import re
+#
+# s = 'one1two2three3four4five5six6'
+# # p=re.compile(r'\d+')
+# # rest=p.split(s)
+# # print(rest)
+# # p=re.compile(r'\d+')
+# # rest=p.sub('@',s)
+# # print(rest)
+# s2='hello world'
+# p2=re.compile(r'(\w+) (\w+)')
+# rest_pos=p2.sub(r'\2 \1',s2)
+# print(rest_pos)
+#
+# def f(m):
+#     return m.group(2).upper()+' '+m.group(1)
+#
+# rest_change=p2.sub(f,s2)
+# print(rest_change)
+#
+#
+# rest_lamb=p2.sub(lambda m: m.group(2).upper()+' '+m.group(1),s2)
+# print(rest_lamb)
+
+#1.下载html
+#2.写正则表达式
+#找到img标签
+#找到src属性
+#在Python中列表范围取值是“左闭右开”
+# persons=['张三','赵六','李四','王五','赵六','钱七','孙八']
+# count=len(persons)
+# i=0
+# for p in persons:
+#     if p == '赵六':
+#         ri=count * -1 +i
+#         print(p,i,ri)
+#     i += 1
+#
+# i=0
+# while i< len(persons):
+#     p=persons[i]
+#     if p=='赵六':
+#         ri=count*-1+i
+#         print(p,i,ri)
+#     i+=1
+
+# list1=list[1:4]
+# print(list1)
+# #['李四', '王五', '赵六']
+# print(list1[-1])
+#
+# #列表的index函数用于获取指定元素的索引值
+# zhaoliu_index=list.index('赵六')
+# print(zhaoliu_index)
+# numList=[1,2,3,4,5,6,7,8,9,10]
+# i=0
+# for n in numList:
+#     if n%2==0:
+#         i+=1
+#         print("第",i,"个偶数",n)
+# persons=['张三','赵六','李四','王五','赵六','钱七','孙八']
+# persons.reverse()#reverse方法用于反转列表
+# print(persons)
+#
+# numbers=[28,32,14,12,53,52]
+# numbers.sort()#升序
+# print(numbers)
+# numbers.sort(reverse=True)#降序
+# print(numbers)
+persons=['张三','赵六','李四','王五','赵六','钱七','孙八']
+#列表的追加
+persons.append("杨九")
+print(persons)
+#列表的插入
+persons.insert(2,"刘二")
+print(persons)
+#列表的更新
+persons[2]="宋二"
+print(persons)
+persons[3:5]=['王五','李四']
+print(persons)
+#列表的删除
+persons.remove("宋二")
+print(persons)
+#按索引值删除元素
+persons.pop(4)
+print(persons)
+persons[4:7]=[]
+print(persons)
+## class Cat(object):
+#
+#     tag='猫科动物'
+#
+#     def __init__(self,name):
+#         self.name=name
+#
+#     @staticmethod
+#     def breath():
+#         print("猫都需要呼吸空气")
+#
+#     @classmethod
+#     def show_info(cls,name):
+#         # print('类的属性：{0}，实例的属性：{1}'.format(cls.tag,cls.name))
+#         return cls(name)
+#
+#     def show_info2(self):
+#         print('类的属性：{0}，实例的属性：{1}'.format(self.tag,self.name))
+#
+# if __name__ == '__main__':
+#     # Cat.breath()
+#     # cat=Cat('小黑')
+#     # cat.breath()
+#     # cat.show_info()
+#
+#     cat2=Cat.show_info('小行')
+#     cat2.show_info2()
+
+#
+# class Dog(object):
+#     def __init__(self, name, age):
+#         self.name = name
+#         self.age = age
+#
+#     def sit(self):
+#         print(self.name.title() + "is now sitting.")
+#
+#     def roll_over(self):
+#         print(self.name.title() + "rolled over!")
+#
+#
+# my_dog = Dog('willie', 6)
+# print("My dos's name is " + my_dog.name.title())
+# print("My dos is " + str(my_dog.age) + "years old.")
+#
+#
+# def hello():
+#     print("hello world")
+#
+#
+# def test():
+#     print('test..')
+#
+#
+# def hello_wrapper():
+#     print('开始执行hello')
+#     hello()
+#     print('结束执行hello')
+# #
+# #
+# # def test_wrapper():
+# #     print('开始执行test')
+# #     test()
+# #     print('结束执行test')
+# #
+# #
+# # if __name__ == '__main__':
+# #     # hello()
+# #     # hello_wrapper()
+# #     # test_wrapper()
+# # from _ctypes_test import func
+#
+# """
+# def hello():
+#     print('hello world')
+#
+#
+# def log(func):
+#     #
+#
+#     def wrapper():
+#         print('开始执行')
+#         func()
+#         print('执行完毕')
+#     return wrapper
+#
+#
+# def log_in(func):
+#
+#
+#     def wrapper():
+#         print('开始')
+#         func()
+#         print('完毕')
+#     return wrapper
+#
+#
+# @log
+# def hello():
+#     print('hello world')
+#
+# @log
+# @log_in
+# def test():
+#     print('test..')
+#
+#
+# if __name__ == '__main__':
+#     hello()
+#     test()
+# """
+#
+#
+# def log(name=None):
+#
+#     def decorator(func):
+#         def wrapper():
+#             print('{0}.开始'.format(name))
+#             func()
+#             print('{0}.完毕'.format(name))
+#         return wrapper
+#     return decorator
+#
+#
+# @log('hello')
+# def hello():
+#     print('hello world')
+#
+#
+# @log('test')
+# def test():
+#     print('text.')
+#
+#
+# if __name__ == '__main__':
+#     hello()
+#     test()
+#
+#
+# def log(name=None):
+#     def decorator(func):
+#         def wrapper(*args,**kwargs):
+#             print('{0}.start...'.format(name))
+#             rest = func(*args,**kwargs)
+#             print('{0}.end..'.format(name))
+#             return rest
+#         return wrapper
+#     return decorator
+#
+#
+# @log('hello')
+# def hello():
+#     print('hello world')
+#
+#
+# if __name__ == '__main__':
+#     print()
+#
+#
+# def f(self):
+#     print('{0}吃东西'.format(self.name))
+#
+# def eat(cls):
+#     # cls.eat=lambda self: print('{0}吃东西'.format(self.name))
+#     cls.eat=f
+#     return cls
+#
+#
+# @eat
+# class Cat(object):
+#     def __init__(self,name):
+#         self.name=name
+#
+#
+# if __name__ == '__main__':
+#     cat=Cat('小黑')
+#     cat.eat()
+
+#
+# class PowNumber(object):
+#     value = 0
+#
+#     def __next__(self):
+#         self.value+=1
+#         if self.value>10:
+#             raise StopIteration
+#         return self.value*self.value
+#
+#     def __iter__(self):
+#         return self
+#
+# if __name__ == '__main__':
+#     pow =PowNumber()
+#     # print(next(pow))
+#     # print(next(pow))
+#     # print(next(pow))
+#     # print(pow.__next__())
+#     # print(pow.__next__())
+#     # print(pow.__next__())
+#     for i in pow:
+#         print(i)
+#
+#
+#
+# def pow():
+#     yield 1
+#     yield 2
+#     yield 3
+#     yield 4
+#
+#
+# def pow_number():
+#     return (x * x for x in [1,2,3,4,5])
+#
+# def pow_number2():
+#     for x in [1, 2, 3, 4, 5]:
+#         yield  x*x
+#
+# if __name__ == '__main__':
+#     # rest = pow()
+#     # # print(next(rest))
+#     # # print(next(rest))
+#     # for i in rest:
+#     #     print(i)
+#     #
+#
+#     rest =pow_number2()
+#     print(next(rest))
+#     for i in rest:
+#         print(i)
+#
+#
+# def use_range():
+#     for i in range(5,10):
+#         print(i)
+#
+#
+# class IterRange(object):
+#     """模拟"""
+#
+#     def __init__(self,start,end):
+#         self.start=start-1
+#         self.end=end
+#
+#     def __next__(self):
+#         self.start+=1
+#         if self.start>=self.end:
+#             raise StopIteration
+#         return self.start
+#
+#     def __iter__(self):
+#         return self
+#
+#
+# class GenRange(object):
+#     def __init__(self,start,end):
+#         self.start=start-1
+#         self.end=end
+#
+#     def get_num(self):
+#         while True:
+#             if self.start>=self.end-1:
+#                 break
+#             self.start+=1
+#             yield self.start
+#
+#
+# if __name__=='__main__':
+#     use_range()
+#     print("----------------")
+#     iter =IterRange(5,10)
+#     # print(next(iter))
+#     # print(next(iter))
+#     # print(next(iter))
+#     # print(next(iter))
+#     # print(next(iter))
+#     l=list(iter)
+#     print(l)
+#     print("----------------")
+#     gen=GenRange(5,10).get_num()
+#     for i in gen:
+# #         print(i)
+#
+# def test_div(num1,num2):
+#     return num1/num2
+#
+# if __name__=='__main__':
+#     try:
+#         rest =test_div(5,0)
+#         print(rest)
+#     except ZeroDivisionError:
+#         print('除数不能为0')
+#     except TypeError:
+#         print('请输入数字')
+
+# import re
+#
+# pattern = re.compile(r'hello')
+#
+# rest = pattern.match('hello,world!')
+# print(rest)
+
+
+import re
+
+content = 'one1two12three33four444five5six698'
+
+p=re.compile(r'\d+')
+rest=p.findall(content)
+print(rest)
+class PetCat(object):
+
+    def __init__(self,name,age):
+
+
+        self.name=name
+        self.age=age
+
+    def show_inof(self):
+        return '我叫{0},今年{1}岁'.format(self.name,self.age)
+
+    def __str__(self):
+        return self.show_inof()
+
+if __name__=='__main__':
+    cat_black=PetCat('小黑',2)
+    print(cat_black)
+
+
+class Person(object):
+
+    def __init__(self,name,gender):
+        self.name=name
+        self.gender=gender
+
+    def speak(self):
+        print("hello ! 我是{0}".format(self.name))
+
+    def relation(self):
+        pass
+
+class Student(Person):
+
+    def __init__(self,name,gender,score,major):
+        Person(name,gender)
+        self.score=score
+        self.major=major
+
+class BaseCat(object):
+    tag='猫科动物'
+
+    def __init__(self,name):
+        self.name=name
+
+    def eat(self):
+        print('猫懂要吃东西')
+
+
+class Tiger(BaseCat):
+    def eat(self):
+        super(Tiger,self).eat()
+        print("我还喜欢吃肉")
+class Panda(BaseCat):
+    pass
+
+class PetCat(BaseCat):
+    def eat(self):
+        super(PetCat,self).eat()
+        print("我还喜欢猫粮")
+
+class HuaCat(PetCat):
+    def eat(self):
+        super(HuaCat,self).eat()
+        print("我还喜欢零食")
+
+if __name__=='__main__':
+    cat=HuaCat('小黄')
+    cat.eat()
+
+
+college1={"哲学","经济学","法学","教育学"}
+#
+# # print(college1)
+# # college2=set(["金融学","哲学","经济学","历史学","文学"])
+# # print(college2)
+# a_list = {1,2,3,4,5}
+# b_list = {1,4,7,9}
+# int_list=a_list.intersection(b_list)
+# print(int_list)
+# uni_list= a_list.union(b_list)
+# print(uni_list)
+# dif_list=a_list.difference(b_list)
+# print(dif_list)
+#新增数据
+college1.add("计算机学")
+college1.update(("生物学","工程学"))
+
+#删除操作
+college1.remove("生物学")
+
+form openpyxl import Woekbook
+# count=1
+# lste=[]
+# for i in range(1,5):
+#     for j in range(1,5):
+#         if i != j:
+#             lst=i*10+j
+#             lste.append(lst)
+#             count+=1
+# print(count)
+# print(lste)
+# import pyautogui
+# import time
+# im = pyautogui.screenshot()
+# im.save('屏幕截图.png')
+# pyautogui.moveTo(1045,631)
+# time.sleep(4)
+# for i in range(1,50):
+#     pyautogui.press('w')
+#     pyautogui.doubleClick()
+#     time.sleep(2)
+# list1=[23,98,56,55,76,98,55]
+# list2=[]
+# for p in list1:
+#    if p not in list2:
+#         list2.append(p)
+# list2.sort()
+# print(list2)
+# reason=[[3,4,5],[6,7,8],[9,10,11],[12,1,2]]
+# month=input("请输入1-12之间的月份")
+# month=int(month)
+# if month in reason[0]:
+#     print('{0}月是春季'.format(month))
+# elif month in reason[1]:
+#     print('{0}月是夏季'.format(month))
+# elif month in reason[2]:
+#     print('{0}月是秋季'.format(month))
+# elif month in reason[3]:
+#     print('{0}月是冬季'.format(month))
+# else:
+#     print('您输入的月份有误！！')
+# emp_list=[]
+# while True:
+#     info=input("请输入员工信息：")
+#     if info=="":
+#         print("程序结束")
+#         break
+#     info_list=info.split(",")
+#     emp_list.append(info_list)
+#     print(emp_list)
+# emp=[]
+# emp.append#单个kv进行更新
+# employee['geade']='B'
+# #多个kv进行更新
+# employee.update(salary=1200,welfare=150)([12,21,34])
+# # print(emp[0])
+# dict1={'name':'xianm'}
+# print(dict1)
+# dict3=dict(name='xiaom')
+# print(dict3)
+#
+# name=employee['name']
+# print(employee.get('job'))
+# print(employee.get('job','其他'))
+# employee=1
+# for key in employee:
+#     v=employee[key]
+#     print(v)
+#
+# for k,v in employee.items()
+#     print(k,v)
+#
+result=[]
+for i in range(0,50):
+    if i ==0 or i == 1:
+        result.append(1)
+    else:
+        result.append(result[i-2]+result[i-1])
+
+print(result)
+l =776351721
+is_prime = True
+for i in range(2,1):
+    if l%i == 0:
+        is_prime =False
+        break
+if is_prime == True:
+    print("{0}是质数".format(1))
+else:
+    print("{0}不是质数".format(1))
+lst1=[]
+for i in range(10,20):
+    lst1.append(i*10)
+print(lst1)
+
+lst2=[i*10 for i in range(10,20)]
+print(lst1)
+
+lst3=[i*10 for i in range(10,20) if i%2==0]
+print(lst3)
+
+for i in range(10,20):
+    if i % 2 == 0:
+        lst3.append(i*10)
+service_menu={1:"人民币转换美元",2:"美元转换人民币",3:"人民币转换欧元",0:"结束程序"}
+fw=5
+while fw !=0:
+    print("**********欢迎使用货币转换服务系统**********")
+    print('1:',service_menu[1])
+    print('2:',service_menu[2])
+    fw=int(fw)
+    while fw != 0:
+        if fw == 1:
+            print("欢迎使用人民币转换美元服务")
+            a=input("请输入您需求转换的人民币金额：")
+            print("您需要转换的人民币为：",a)
+            print("兑换成美元为：{0}$".format(int(a)*7.0))
+            break
+        elif fw ==2:
+            print("欢迎使用美元转换人民币服务")
+            a = input("请输入您需求转换的美元金额：")
+            print("您需要转换的美元为：", a)
+            print("兑换成人民币为：{0}$".format(int(a) / 7.0))
+            break
+        elif fw ==3:
+            print("欢迎使用人民币转换欧元服务")
+            a = input("请输入您需求转换的人民币金额：")
+            print("您需要转换的人民币为：", a)
+            print("兑换成欧元为：{0}$".format(int(a) / 10.0))
+            break
+    print('3:',service_menu[3])
+    print('0:',service_menu[0])
+    fw=input("请您选择需要的服务：")
+if fw==0:
+    print("感谢您的使用，祝您生活愉快，再见！")
+def print_verse():
+    print("锄禾日当午")
+    print("汗滴禾下土")
+    print("谁知盘中餐")
+    print("粒粒皆辛苦")
+
+print_verse()
+# def goose():
+#     print("鹅鹅鹅，曲项向天歌，白毛浮绿水，红掌拨清波。")
+#     print("**************************************************")
+# goose()
+# goose()
+# goose()
+def print_verse(verse_name,is_show_title):
+    if verse_name=="咏鹅":
+        if is_show_title==True:
+            print("咏鹅")
+        print("鹅鹅鹅，曲项向天歌，白毛浮绿水，红掌拨清波。")
+    elif verse_name =="悯农":
+        if is_show_title==True:
+            print("悯农")
+        print("锄禾日当午")
+        print("汗滴禾下土")
+        print("谁知盘中餐")
+        print("粒粒皆辛苦")
+
+print_verse("悯农",1)
+def oper(num,num1,num2):
+    if num<100:
+        print(num1*num2)
+    else:
+        print(num1+num2)
+oper(1314,52,0)
+oper(5,2,0)
+def calc_exchange_rate(amt,source,target):
+    if source == "CNY" and target == "USD":
+        result=amt /6.7516
+        #print(result)
+        print("汇率计算成功")
+        return  result
+
+r=calc_exchange_rate(100,"CNY","USD")
+print(r)
+def login(username,password):
+    if(username=="imooc" and password=="123456"):
+        return "登录成功"
+    else:
+        return "请重新登录"
+a=login("imooc","123456")
+b=login("mooc","123456")
+print(a)
+print(b)
+# def health_check(name,age,*,height,weight,hrr,hbp,lbp,glu):
+#     print("你的健康情况良好")
+# def info(*,desc,birth,name="imooc"):
+#     print("imooc-{0}出生于{1}".format(desc,birth))
+# info(desc="程序员的梦工厂",birth="2013年8月")
+# def calc(a,b,c):
+#     return (a+b)*c
+#
+# l=[1,5,10]
+# print(calc(*l))
+# def health_check(name,age,height):
+#     print("你的健康情况良好")
+#
+# param={"name":"zhang","age":32,"height":178}
+# health_check(**param)
+def get_detail_info():
+    dict1={
+        "employee":[
+            {"name":"zhans","salary":1250},
+            {"name": "zan", "salary": 1250}
+        ],
+        "device":[
+            {"id":"88371120","title":"xx笔记本"},
+            {"id":"38315616","title":"xx台式机"}
+        ],
+        "asset":[{},{}],
+    }
+    return dict1
+print(get_detail_info())
+d=get_detail_info()
+a=d.get("employee")[0]
+print(a)
+# def seq(num,num1,num2):
+#     if num<88:
+#         return num1*num2
+#     else:
+#         return num1+num2
+#
+# tuple1=[5,2,1]
+# print(seq(*tuple1))
+def fun_dict(name,hiredate,tel,dept):
+    print("{0}隶属于{1}，电话{2},入职日期：{3}".format(name,dept,tel,hiredate))
+
+dict1={'name':'小葫芦','hiredate':'2017-9-23','tel':'1894564953','dept':'技术部'}
+fun_dict(**dict1)
+import random
+def ganerate_unionlotto(number):
+    for j in range(0, number):
+        for i in range(0, 6):
+            red = random.randint(1, 33)
+            print(red, end=" ")
+        blue = random.randint(1, 16)
+        print(blue)
+while True:
+    print("1-双色球随机选号")
+    print("2-号码百事通")
+    print("3-明日天气预报")
+    print("0-结束程序")
+    c=input("请输入功能编号：")
+
+    if c== "1":
+        n=input("您要生成几注双色球号码：")
+        n=int(n)
+        ganerate_unionlotto(n)
+    elif c=="2":
+        print()
+    elif c=="3":
+        print()
+    elif c=="0":
+        break
+    else:
+        print("您输入的功能编号有误，请重新输入")
+print("感谢您的使用，祝您生活愉快，再见！")
+def f(n):
+    return n%2!=0
+
+def use_filter(l):
+    # rest=filter(lambda n: n % 2 != 0, l)
+    rest=filter(f,l)
+    return rest
+
+if __name__=='__main__':
+    l=[1,2,3,4,5,6,7,8,9,10,11]
+    rest=use_filter(l)
+    print(rest)
+
+
+    def pow_number(l):
+        rest_list = []
+        for x in l:
+            rest_list.append(x * x * x)
+        return rest_list
+
+
+    def f(n):
+        return n * n * n
+
+
+    def pow_num_use_map(l):
+        return map(f, l)
+
+
+    l = [1, 2, 3, 4, 5, 6, 7, 8]
+    rest = pow_number(l)
+    print(rest)
+    rest_map = pow_num_use_map(l)
+    print(list(rest_map))
+
+class Cat(object):
+
+    def __init__(self,name,age):
+        self.name=name
+        self.__age=age
+
+    def set_age(self,age):
+        self.__age=age
+        return self.__age
+
+    def show_info(self):
+        print('我叫:{0},今年{1}岁。'.format(self.name,self.__age))
+
+    def eat(self):
+        print("猫喜欢吃鱼")
+
+    def catch(self):
+        print("猫喜欢抓老鼠")
+
+
+if __name__=='__main__':
+    cat_black=Cat('xx',12)
+    cat_black.eat()
+class Vehicle(object):
+    trans_type='SUV'
+    speed=0
+    size=[]
+    def __init__(self,speed,size):
+        self.speed=speed
+        self.size=size
+
+    def show_info(self):
+        print('我的所属类型为：{0}，速度：{1}km/h，体积：({2})'.format(Vehicle.trans_type,self.speed,self.size))
+
+    def move(self):
+        print("我已向前移动了50米")
+
+    def set_speed(self,speed):
+        self.speed=speed
+
+    def get_speed(self):
+        print("我的时速为：{0}km/h".format(self.speed))
+
+    def speed_up(self):
+        a=self.speed
+        self.speed=self.speed+10
+        print("我的速度由{0}km/h提升到了{1}km/h".format(a,self.speed))
+
+    def speed_down(self):
+        a=self.speed
+        self.speed=self.speed-15
+        print("我的速度由{0}km/h下降到了{1}km/h".format(a,self.speed))
+
+
+if __name__=='__main__':
+    car=Vehicle(50,(3.6,1.9,1.75))
+    car.show_info()
+    car.move()
+    car.get_speed()
+    car.speed_up()
+    car.speed_down()
+
+# i=1
+# result = 1
+# while i <= 20:
+#     result = result * i
+#     if i%5==0:
+#         print("{}:{}".format(i,result))
+#     i = i + 1
+# num = 1
+# count = 0
+# while num<=100:
+#     if(num%3==0 or num%7==0) and (num%21!=0):
+#         count=count+1
+#     num=num+1
+# print(count)
+# n=1
+# while n<=4:
+#     x=2
+#     while x>=0:
+#         print('0',end='')
+#         x=x-1
+#     y=1
+#     x = x - 1
+#     # while y<=(7-x*2):
+#     #     print('*',end='')
+#     #     y=y+1
+#     print()
+#     n+=1
+# sheet=['23','24','56']
+# if('23' in sheet):
+#     print(1)
+# else:
+#     print(0)
+# a=5
+# b=a
+# c=5.0
+# print(a is b)
+# str1=2020
+# str2='2020'
+# print(str1 is str2)
+# print(str1 is str2)
+# #列表的创建
+# #变量名=[元素1，元素2，....]
+# list =['a','b','c',1,2,3]
+# print(list)
+#
+# list=['张三','李四','王五','赵六','钱七','孙八']
+# print(list)
+# #取值的语法：变量=列表变量[索引值]
+# zhaoliu=list[3]
+# print(zhaoliu)
+# zhaoliu=list[-3]
+# print(zhaoliu)
+# def gr():
+#     print("hello!")
+# gr()
+# def gr(a):
+#     print("hello!"+a)
+# gr('12')
+# def display_message():
+#     print("函数")
+# display_message()
+# def favorite_book(title):
+#     print("One of my favorite books is "+title)
+# favorite_book('book')
+
+# weight=input("请输入您的体重（kg）：")
+# height=input("请输入您的身高（m）：")
+# BMI=int(weight)/pow(float(height),2)
+# print(BMI)
+#
+# if BMI <=18.4:
+#     print("偏瘦")
+# elif BMI >18.4 and BMI <=23.9:
+#     print("正常")
+# elif BMI >23.9 and BMI <=27.9:
+#     print("偏重")
+# else:
+#     print("肥胖")
+# high = input("高压值：")
+# low = input("低压值：")
+# high = int(high)
+# low = int(low)
+# if (low > 60 and low < 90) and (high > 90 and high < 140):
+#     print("正常")
+# else:
+#     if low <= 60:
+#         print("低压过低")
+#     elif high <=90:
+#         print("高压过低")
+#     else:
+#         print("血压超标")
+# a=input("请输入第一个数：")
+# b=input("请输入第二个数：")
+# a=int(a)
+# b=int(b)
+# if a==b:
+#     print("两数相同")
+# else:
+#     if a>b:
+#         print("较大数为：",a)
+#     else:
+#         print("较大数为：",b)
+# sum1=0
+# num1=1
+# while num1<1001:
+#     if num1%2!=0:
+#         sum1=sum1+num1
+#     num1=num1+1
+# print(sum1)
+# print("Python is the best language")
+# i=0
+# while i<5:
+#     print("Python is the best language")
+#     i=i+1
+# i=1
+# while i<=9:
+#     j=1
+#     while j<=i:
+#         print('\t',j,'*',i,'=',i*j,end="")
+#         j=j+1
+#     print()
+#     i=i+1
+----------
+# a=4>1
+# b=5<2
+# c=8==8
+# d=9<6
+# print(a and b)
+# print(a and c)
+# print(a or b)
+# print(b or d)
+# print(not a)
+# print(not b)
+# r1 = a and b or c and not d
+# print(r1)
+# year=2020
+# if(year%4==0 and year%100 or year%400==0):
+#     print("1")
+# else:
+#     print("0")
+# high=input("请输入高压值")
+# low=input("请输入抵压值")
+# high=int(high)
+# low=int(low)
+# # if(low > 60 and low <90) and (high >90 and high <140):
+# #     print("正常")
+# # else:
+# #     print("出现异常")
+# if not((low<=60 or low>=90)or(high>=140 or high <=90)):
+#     print("正常")
+# else:
+#     print("出现异常")
+# num = int(input("请输入一个三位数："))
+# a = num % 10
+# b = int(num % 100 / 10)
+# c = int(num / 100)
+# total=((a ** 3) + (b ** 3) + (c ** 3))
+# if (total == num):
+#     print("{0}是水仙花数".format(num))
+# else:
+#     print("{0}不是水仙花数".format(num))
+# print(a)
+# print(b)
+# print(c)
+# pizzas=['12','22','32']
+# for pizza in pizzas:
+#     print(pizza)
+# print(pizzas[0:2])
+# pi=pizzas[:]
+# print(pi)
+cars=['audi','bmw','subaru']
+for car in cars:
+    if car=='bmw':
+        print(car.upper())
+    else:
+        print(car.title())
+from selenium import webdriver
+from time import sleep
+chrone_driver = r"C:\\Users\\30452\\Desktop\\zdh\\chromedriver.exe"
+driver = webdriver.Chrome(executable_path=chrone_driver)
+driver.get("https://www.zhipin.com/changsha/?sid=sem_pz_bdpc_dasou_title")
+driver.find_element_by_link_text('运行代码').click()
+from selenium import webdriver
+from time import sleep
+from selenium.webdriver.support.ui import Select
+from selenium import webdriver
+from time import sleep
+chrone_driver = r"C:\\Users\\30452\\Desktop\\zdh\\chromedriver.exe"
+driver = webdriver.Chrome(executable_path=chrone_driver)
+driver.get("http://172.26.101.56/bsams/front/login.do")
+sleep(1)
+driver.find_element_by_id('taskId').send_keys('109')
+driver.find_element_by_id('loginName').send_keys('201937050211')
+driver.find_element_by_id('password').send_keys('123456')
+driver.find_element_by_id('vericode').send_keys('shtd')
+driver.find_element_by_class_name('dl-button').click()
+sleep(1)
+driver.find_element_by_id('leftmenu_asset_category').click()
+sleep(1)
+driver.find_element_by_link_text('禁用').click()
+sleep(1)
+alertObject=driver.switch_to.alert
+print(alertObject.text)
+alertObject.accept()
+sleep(1)
+alertObject=driver.switch_to.alert
+print(alertObject.text)
+alertObject.accept()
+sleep(1)
+driver.find_element_by_xpath('/html/body/div[1]/div/div[3]/a').click()
+chrone_driver = r"C:\\Users\\30452\\Desktop\\zdh\\chromedriver.exe"
+driver = webdriver.Chrome(executable_path=chrone_driver)
+driver.get("http://172.26.101.56/bsams/front/login.do")
+sleep(1)
+driver.find_element_by_id('taskId').send_keys('109')
+driver.find_element_by_id('loginName').send_keys('201937050211')
+driver.find_element_by_id('password').send_keys('123456789')
+driver.find_element_by_id('vericode').send_keys('shtd')
+driver.find_element_by_class_name('dl-button').click()
+sleep(1)
+driver.find_element_by_id('leftmenu_asset_provider').click()
+# 资产借还
+sleep(1)
+m=driver.find_element_by_name('status')
+#driver.find_element_by_id('status') # 这个status没有，没有这个id
+sleep(1)
+Select(m).select_by_value("1")
+# driver.find_element_by_xpath('//*[@id="leftmenu_assetborrow_manage"]').click()
+
+from selenium import webdriver
+from time import sleep
+chrone_driver = r"C:\\Users\\30452\\Desktop\\zdh\\chromedriver.exe"
+driver = webdriver.Chrome(executable_path=chrone_driver)
+driver.get("http://172.26.101.56/bsams/front/login.do")
+sleep(1)
+from selenium import webdriver
+from time import sleep
+chrone_driver = r"C:\\Users\\30452\\Desktop\\zdh\\chromedriver.exe"
+driver = webdriver.Chrome(executable_path=chrone_driver)
+driver.get("http://172.26.101.56/bsams/front/login.do")
+sleep(1)
+driver.find_element_by_id('taskId').send_keys('109')
+driver.find_element_by_id('loginName').send_keys('201937050211')
+driver.find_element_by_id('password').send_keys('123456')
+driver.find_element_by_id('vericode').send_keys('shtd')
+driver.find_element_by_class_name('dl-button').click()
+sleep(1)
+driver.find_element_by_id('leftmenu_asset_category').click()
+driver.find_element_by_class_name('add_submit').click()
+a=driver.switch_to_active_element();
+sleep(1)
+a.find_element_by_id('title').send_keys('test109')
+a.find_element_by_id('code').send_keys('test109')
+a.find_element_by_class_name('close-button').click()
+sleep(1)
+alertObject = driver.switch_to.alert
+print(alertObject.text)
+alertObject.accept()
+
+
+driver.find_element_by_id('taskId').send_keys('109')
+driver.find_element_by_id('loginName').send_keys('201937050211')
+driver.find_element_by_id('password').send_keys('123456')
+driver.find_element_by_id('vericode').send_keys('shtd')
+driver.find_element_by_class_name('dl-button').click()
+sleep(1)
+driver.find_element_by_id('phone').clear()
+driver.find_element_by_id('phone').send_keys('12345785')
+driver.find_element_by_class_name('button_fujian').click()
+sleep(1)
+alertObject = driver.switch_to.alert
+print(alertObject.text)
+alertObject.accept()
+
+sleep(1)
+# # 下拉列表实验
+# A=driver.find_elements_by_xpath('//select[@id="assetCategoryId"]/option')
+# for a in A:
+#     if a.text=='资产类别':
+#         a.click()
+#         driver.find_element_by_xpath('//*[@id="fmsearch"]/div[4]/button')
+
+# print(a[0].text)
+# a[1].click()
+
+#m.find_element_by_xpath("//option[@value='1']").click()
+# driver.find_element_by_link_text('修改密码').click()
+# a=driver.switch_to_active_element()
+# sleep(1)
+# a.find_element_by_id('oldPassword').send_keys('123456789')
+# a.find_element_by_id('newPassword1').send_keys('123456789')
+# a.find_element_by_id('newPassword2').send_keys('123456789')
+# a.find_element_by_class_name('close-button').click()
+# sleep(1)
+# driver.switch_to.alert
+#driver.accept()
+# alert.accept()
+# driver.find_element_by_link_text('退出').click()
+from selenium import webdriver
+from time import sleep
+
+chrone_driver = r"C:\\Users\\30452\\Desktop\\zdh\\chromedriver.exe"
+driver = webdriver.Chrome(executable_path=chrone_driver)
+
+driver.get("http://172.26.101.56/bsams/front/login.do")
+
+driver.find_element_by_id("taskId").send_keys("113")
+driver.find_element_by_id("loginName").send_keys("201937050211")
+driver.find_element_by_id("password").send_keys("201937050211")
+driver.find_element_by_id("vericode").send_keys("shtd")
+driver.find_element_by_class_name("dl-button")
+from selenium import webdriver
+from time import sleep
+
+chrone_driver = r"C:\\Users\\30452\\Desktop\\zdh\\chromedriver.exe"
+
+driver = webdriver.Chrome(executable_path=chrone_driver)
+driver.get("https://mooc1-1.chaoxing.com/mycourse/studentcourse?courseId=214435846&clazzid=32296435&enc=82112734b665875d39886427d8d2a2a9&cpi=101390003&vc=1")
+driver.find_element_by_class_name("ipt-tel").send_keys("15387470431")
+driver.find_element_by_class_name("ipt-pwd").send_keys("ling020417")
+sleep(1)
+driver.find_element_by_id("loginBtn").click()
+sleep(8)
+driver.find_element_by_xpath('//*[@id="348706892"]/h3[3]/span[2]/a').click()
+from selenium import webdriver
+from time import sleep
+
+chrone_driver = r"C:\\Users\\30452\\Desktop\\zdh\\chromedriver.exe"
+
+driver = webdriver.Chrome(executable_path=chrone_driver)
+driver.get("https://mooc1-1.chaoxing.com/mycourse/studentcourse?courseId=214435846&clazzid=32296435&enc=82112734b665875d39886427d8d2a2a9&cpi=101390003&vc=1")
+driver.find_element_by_class_name("ipt-tel").send_keys("15387470431")
+driver.find_element_by_class_name("ipt-pwd").send_keys("ling020417")
+sleep(1)
+driver.find_element_by_id("loginBtn").click()
+sleep(8)
+driver.find_element_by_xpath('//*[@id="348706892"]/h3[3]/span[2]/a').click()
+sleep(4)
+
+driver.find_element_by_xpath('//*[@id="ZyBottom"]/div/div[2]/ul/li[2]/label/input').click()
+driver.find_element_by_xpath('//*[@id="ZyBottom"]/div/div[2]/ul/li[3]/label/input').click()
+driver.find_element_by_xpath('//*[@id="ZyBottom"]/div/div[2]/ul/li[4]/label/input').click()
+
+driver.find_element_by_xpath('//*[@id="ZyBottom"]/div/div[4]/div[2]/ul/li[1]/label/input').click()
+driver.find_element_by_xpath('//*[@id="ZyBottom"]/div/div[4]/div[2]/ul/li[2]/label/input').click()
+driver.find_element_by_xpath('//*[@id="ZyBottom"]/div/div[4]/div[2]/ul/li[3]/label/input').click()
+driver.find_element_by_xpath('//*[@id="ZyBottom"]/div/div[4]/div[2]/ul/li[4]/label/input').click()
+
+driver.find_element_by_xpath('//*[@id="ZyBottom"]/div/div[4]/div[4]/div[2]/ul/li[1]/label/input').click()
+driver.find_element_by_xpath('//*[@id="ZyBottom"]/div/div[4]/div[4]/div[2]/ul/li[2]/label/input').click()
+driver.find_element_by_xpath('//*[@id="ZyBottom"]/div/div[4]/div[4]/div[2]/ul/li[3]/label/input').click()
+driver.find_element_by_xpath('//*[@id="ZyBottom"]/div/div[2]/ul/li[4]/label/input').click()
+from selenium import webdriver
+from time import sleep
+# 登录
+chrone_driver = r"C:\\Users\\30452\\Desktop\\zdh\\chromedriver.exe"
+
+driver = webdriver.Chrome(executable_path=chrone_driver)
+driver.get("http://172.26.101.56/bsams/front/login.do")
+sleep(1)
+driver.find_element_by_id("taskId").send_keys("109")
+driver.find_element_by_id("loginName").send_keys("201937050211")
+driver.find_element_by_id("password").send_keys("123456")
+driver.find_element_by_id("vericode").send_keys("shtd")
+driver.find_element_by_class_name("dl-button").click()
+from selenium import webdriver
+from time import sleep
+# 登录后新增品牌
+chrone_driver = r"C:\\Users\\30452\\Desktop\\zdh\\chromedriver.exe"
+
+driver = webdriver.Chrome(executable_path=chrone_driver)
+driver.get("http://172.26.101.56/bsams/front/login.do")
+sleep(1)
+driver.find_element_by_id("taskId").send_keys("109")
+driver.find_element_by_id("loginName").send_keys("201937050211")
+driver.find_element_by_id("password").send_keys("123456")
+driver.find_element_by_id("vericode").send_keys("shtd")
+driver.find_element_by_class_name("dl-button").click()
+
+driver.find_element_by_xpath('//*[@id="leftmenu_asset_brand"]').click()
+driver.find_element_by_class_name("add_submit").click()
+a=driver.switch_to_active_element();
+sleep(1)
+driver.find_element_by_id("title").send_keys("cs771989")
+driver.find_element_by_id("code").send_keys("cs797189")
+
+driver.find_element_by_class_name("close-button").click()
+sleep(1)
+alertObject = driver.switch_to.alert
+print(alertObject.text)
+alertObject.accept()
+from selenium import webdriver
+from time import sleep
+# 登录后修改品牌
+chrone_driver = r"C:\\Users\\30452\\Desktop\\zdh\\chromedriver.exe"
+
+driver = webdriver.Chrome(executable_path=chrone_driver)
+driver.get("http://172.26.101.56/bsams/front/login.do")
+sleep(1)
+driver.find_element_by_id("taskId").send_keys("109")
+driver.find_element_by_id("loginName").send_keys("201937050211")
+driver.find_element_by_id("password").send_keys("123456")
+driver.find_element_by_id("vericode").send_keys("shtd")
+driver.find_element_by_class_name("dl-button").click()
+
+driver.find_element_by_xpath('//*[@id="leftmenu_asset_brand"]').click()
+
+driver.find_element_by_xpath('/html/body/div[2]/div/div[2]/div[2]/div[2]/table/tbody/tr[2]/td[5]/a[1]').click()
+a=driver.switch_to_active_element();
+sleep(1)
+
+a.find_element_by_id("title").clear()
+a.find_element_by_id("code").clear()
+sleep(1)
+a.find_element_by_id("title").send_keys("cs11189")
+a.find_element_by_id("code").send_keys("cs71119")
+a.find_element_by_class_name("close-button").click()
+sleep(1)
+alertObject = driver.switch_to.alert
+print(alertObject.text)
+alertObject.accept()
+from selenium import webdriver
+from time import sleep
+# 登录后禁用品牌并退出
+chrone_driver = r"C:\\Users\\30452\\Desktop\\zdh\\chromedriver.exe"
+
+driver = webdriver.Chrome(executable_path=chrone_driver)
+driver.get("http://172.26.101.56/bsams/front/login.do")
+sleep(1)
+driver.find_element_by_id("taskId").send_keys("109")
+driver.find_element_by_id("loginName").send_keys("201937050211")
+driver.find_element_by_id("password").send_keys("123456")
+driver.find_element_by_id("vericode").send_keys("shtd")
+driver.find_element_by_class_name("dl-button").click()
+
+driver.find_element_by_xpath('//*[@id="leftmenu_asset_brand"]').click()
+driver.find_element_by_link_text("禁用").click()
+
+
+sleep(1)
+alertObject = driver.switch_to.alert
+print(alertObject.text)
+alertObject.accept()
+sleep(1)
+alertObject = driver.switch_to.alert
+print(alertObject.text)
+alertObject.accept()
+sleep(1)
+driver.find_element_by_xpath('/html/body/div[1]/div/div[3]/a').click()
+
+from selenium import webdriver
+from time import sleep
+
+chrone_driver = r"C:\\Users\\30452\\Desktop\\zdh\\chromedriver.exe"
+
+driver = webdriver.Chrome(executable_path=chrone_driver)
+
+driver.get("https://www.baidu.com/")
+sleep(1)
+driver.find_element_by_class_name("s_ipt").send_keys("湖南外贸职业学院")
+sleep(1)
+driver.find_element_by_id("su").click()
+
+#driver.find_element_by_link_text("湖南外贸职业学院官方网站").click()
+driver.find_element_by_xpath('//*[@id="1"]/h3/a[1]').click()
+from selenium import webdriver
+from time import sleep
+
+chrone_driver = r"C:\\Users\\30452\\Desktop\\zdh\\chromedriver.exe"
+
+driver = webdriver.Chrome(executable_path=chrone_driver)
+driver.get("http://172.26.101.56/bsams/front/login.do")
+sleep(1)
+driver.find_element_by_id("taskId").send_keys("109")
+driver.find_element_by_id("loginName").send_keys("201937050211")
+driver.find_element_by_id("password").send_keys("123456")
+driver.find_element_by_id("vericode").send_keys("shtd")
+driver.find_element_by_class_name("dl-button").click()
+
+driver.find_element_by_xpath('//*[@id="leftmenu_asset_brand"]').click()
+driver.find_element_by_class_name("add_submit").click()
+a=driver.switch_to_active_element();
+sleep(1)
+driver.find_element_by_id("title").send_keys("cs77989")
+driver.find_element_by_id("code").send_keys("cs79789")
+
+driver.find_element_by_class_name("close-button").click()
+sleep(1)
+alertObject = driver.switch_to.alert
+print(alertObject.text)
+alertObject.accept()
+from random import randint
+
+from selenium import webdriver
+from time import sleep
+
+chrone_driver = r"C:\\Users\\30452\\Desktop\\zdh\\chromedriver.exe"
+
+driver = webdriver.Chrome(executable_path=chrone_driver)
+
+driver.get("http://172.26.101.56/bsams/front/login.do")
+
+driver.find_element_by_id("taskId").send_keys("113")
+driver.find_element_by_id("loginName").send_keys("201937050211")
+driver.find_element_by_id("password").send_keys("201937050211")
+driver.find_element_by_id("vericode").send_keys("shtd")
+driver.find_element_by_class_name("dl-button").click()
+
+sleep(1)
+driver.find_element_by_id("leftmenu_asset_brand").click()
+driver.find_element_by_class_name("add_submit").click()
+sleep(1)
+a=driver.switch_to_active_element();
+
+a.find_element_by_id("title").send_keys("a15")
+
+a.find_element_by_id("code").send_keys("l00")
+a.find_element_by_class_name("close-button").click()
+sleep(1)
+alertObject = driver.switch_to.alert
+print(alertObject.text)
+alertObject.accept()
+sleep(2)
+
+driver.find_element_by_link_text("退出").click()
+from selenium import webdriver
+from time import sleep
+
+chrone_driver = r"C:\\Users\\30452\\Desktop\\zdh\\chromedriver.exe"
+
+driver = webdriver.Chrome(executable_path=chrone_driver)
+
+driver.get("http://172.26.101.56/bsams/front/login.do")
+
+driver.find_element_by_id("taskId").send_keys("113")
+driver.find_element_by_id("loginName").send_keys("201937050211")
+driver.find_element_by_id("password").send_keys("201937050211")
+driver.find_element_by_id("vericode").send_keys("shtd")
+driver.find_element_by_class_name("dl-button").click()
+
+sleep(1)
+driver.find_element_by_id("leftmenu_asset_storage").click()
+
+driver.find_element_by_id("title").send_keys("总经理办公室")
+driver.find_element_by_class_name("search_button").click()
+from selenium import webdriver
+from time import sleep
+
+chrone_driver = r"C:\\Users\\30452\\Desktop\\zdh\\chromedriver.exe"
+
+driver = webdriver.Chrome(executable_path=chrone_driver)
+
+driver.get("http://172.26.101.56/bsams/front/login.do")
+
+driver.find_element_by_id("taskId").send_keys("113")
+driver.find_element_by_id("loginName").send_keys("201937050211")
+driver.find_element_by_id("password").send_keys("201937050211")
+driver.find_element_by_id("vericode").send_keys("shtd")
+driver.find_element_by_class_name("dl-button").click()
+
+sleep(1)
+driver.find_element_by_id("leftmenu_asset_brand").click()
+driver.find_element_by_link_text("禁用").click()
+alertObject = driver.switch_to.alert
+print(alertObject.text)
+alertObject.accept()
+sleep(1)
+alertObject = driver.switch_to.alert
+print(alertObject.text)
+alertObject.accept()
