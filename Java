@@ -1,0 +1,251 @@
+package ui;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+/*处理图片的工具类
+ * */
+public class App {
+
+    public static BufferedImage getimg(String path)  {
+        try {
+            BufferedImage img = ImageIO.read(App.class.getResource(path));
+            return img;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+}
+package ui;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
+/*
+*
+*/
+public class GamePanel extends JPanel {
+    BufferedImage bg;
+
+    public  GamePanel(){
+        setBackground(Color.YELLOW);
+        bg=App.getimg("/img/bg2.jpg");
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        g.drawImage(bg,0,0,null);
+    }
+}
+package ui;
+import javax.swing.*;
+public class GameFrame extends JFrame {
+    public GameFrame(){
+        //设置标题
+        setTitle("飞机大战");
+        //设置大小
+        setSize(512,768);
+        setLocationRelativeTo(null);//设置居中
+        setResizable(false);//设置不允许改变界面大小
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//设置默认的关闭选项
+    }
+
+    public static void main(String[] args) {
+        GameFrame frame=new GameFrame();
+        GamePanel panel=new GamePanel();
+        frame.add(panel);
+        frame.setVisible(true);
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+//        int[] arr = new int[20];
+//        for (int i = 0; i < arr.length; i++)
+//            arr[i] = i;
+//        int[] scores = new int[]{100, 99, 66};
+//        for (int i = 0; i < scores.length; i++)
+//            System.out.println(scores[i]);
+//        for (int score : scores)
+//            System.out.println(score);
+        Array arr=new Array(20);
+        for (int i=0;i<10;i++)
+            arr.addLast(i);
+        System.out.println(arr);
+    }
+}
+public class Array {
+    private int[] data;
+    private int size;
+
+    //构造函数，传入数组的容量capacity构造Array
+    public Array(int capacity){
+        data=new int[capacity];
+        size=0;
+    }
+    //无参数的构造函数，默认数组的容量capacity=10
+    public Array(){
+        this(10);
+    }
+
+    //获取数组中的元素个数
+    public int getSize() {
+        return size;
+    }
+
+    //获取数组的容量
+    public int getCapacity(){
+        return data.length;
+    }
+
+    //返回数组是否为空
+    public boolean isEmpty(){
+        return size==0;
+    }
+
+    //向所有元素后添加一个新元素
+    public void addLast(int e){
+//        if(size==data.length)
+//            try {
+//                throw new IllegalAccessException("AddLast failed. Array is full");
+//            } catch (IllegalAccessException illegalAccessException) {
+//                illegalAccessException.printStackTrace();
+//            }
+//        data[size]=e;
+//        size++;
+        add(size,e);
+    }
+    public void addFirst(int e){
+        add(0,e);
+    }
+    //在第index个位置插入一个新元素e
+    public void add(int index,int e){
+        if(size==data.length)
+            try {
+                throw new IllegalAccessException("AddLast failed. Array is full");
+            } catch (IllegalAccessException illegalAccessException) {
+                illegalAccessException.printStackTrace();
+            }
+        if(index<0||index>size)
+            try {
+                throw new IllegalAccessException("AddLast failed. Require index>=0 and index<=size.");
+            } catch (IllegalAccessException illegalAccessException) {
+                illegalAccessException.printStackTrace();
+            }
+        for(int i=size-1;i>=index;i--)
+            data[i+1]=data[i];
+
+        data[index]=e;
+        size++;
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder res=new StringBuilder();
+        res.append(String.format("Array: size=%d,capacity=%d\n",size,data.length));
+        res.append('[');
+        for(int i=0;i<size;i++){
+            res.append(data[i]);
+            if(i!=size-1)
+                res.append(",");
+        }
+        res.append(']');
+        return res.toString();
+    }
+}
+import java.util.Arrays;
+
+public class CompuTest {
+    public static void main(String[] args) {
+        Compu i=new Compu();
+        int[] result = new int[4];
+        result=Compu.szys(4,2);
+        int a=Compu.pf(5);
+        System.out.println(Arrays.toString(result));
+        System.out.println(a);
+    }
+}
+public class Example {
+
+    String str = new String("good");
+
+    char[ ] ch = { 'a' , 'b' , 'c' };
+
+    public static void main(String args[]){
+
+        Example ex = new Example();
+
+        ex.change(ex.str,ex.ch);
+
+        System.out.print(ex.str + " and ");
+
+        System.out.print(ex.ch);
+
+    }
+
+    public void change(String str,char ch[ ]){
+
+        str = "test ok";
+
+        ch[0] = 'g';
+
+    }
+
+}public class Compu {
+    public static int[] szys(int a, int b){
+        int[] result = new int[4];
+        result[0] = a+b;
+        result[1] = a-b;
+        result[2] = a*b;
+        try {
+            result[3] = a/b;
+        } catch (ArithmeticException e) {
+            if (b == 0) System.err.println("除数为0");
+            else e.printStackTrace();
+        }
+        return result;
+    }
+    public static int pf(int a){
+        return a*2;
+    }
+}
+public class Clock {
+    private Display hour=new Display(24);
+    private Display minute=new Display(60);
+
+    public  void start(){
+        while (true){
+        minute.increase();
+        if(minute.getValue()==0){
+            hour.increase();
+        }
+            System.out.printf( "%d",hour.getValue(), minute.getValue());
+    }}
+    public static void main(String[] args) {
+    Clock clock=new Clock();
+    clock.start();
+    }
+}
+public class Display {
+    private int value=0;
+    private int limit=0;
+    public  Display(int limit){
+        this.limit=limit;
+    }
+    public void increase(){
+        value++;
+        if(value==limit){
+            value=0;
+        }
+    }
+    public int getValue()
+    {
+        return value;
+    }
+
+
+}
