@@ -1,3 +1,83 @@
+// var oSearch=document.getElementById("search");
+				// oSearch.onfocus=function()
+				// {
+				// 	if(this.value=="百度一下，你就知道")
+				// 	{
+				// 		this.value="";
+				// 	}
+				// };
+				// oSearch.onblur=function()
+				// {
+				// 	if(this.value=="")
+				// 	{
+				// 		this.value="百度一下，你就知道"
+				// 	}
+				// };
+				// var oTxt1=document.getElementById("txt1");
+				// var oTxt2=document.getElementById("txt2");
+				// oTxt1.onselect=function()
+				// {
+				// 	alert("单行文本框");
+				// };
+				// oTxt2.onselect=function()
+				// {
+				// 	alert("多行文本框");
+				// };
+				var oSearch=document.getElementById("search");
+				oSearch.onclick=function()
+				{
+					this.select();
+				};
+<input type="text" name="" id="search" value="百度一下,你就知道" />
+<!-- 		<input type="button" name="" id="Button1" value="搜索" /> -->
+		<!-- <input type="text" name="" id="txt1" value="123465" />
+		<br/>
+		<textarea rows="20" cols="5" id="txt2">
+			555555
+		</textarea> -->
+window.onload=function()
+			{
+				var oFruit=document.getElementsByName("frit");
+				var oP=document.getElementById("content");
+				for(var i=0;i<oFruit.length;i++)
+				{
+					oFruit[i].onchange=function(){
+						if(this.checked)
+						{
+							oP.innerHTML="你选择的是："+this.value;
+						}
+					};
+				}
+			}
+<div id="">
+			<label><input type="radio" name="frit" id="" value="苹果" />苹果</label>
+			<label><input type="radio" name="frit" id="" value="香蕉" />香蕉</label>
+			<label><input type="radio" name="frit" id="" value="西瓜" />西瓜</label>
+		</div>
+		<p id="content"></p>
+	var oSelectAll=document.getElementById("selectAll");
+				var oFruit=document.getElementsByName("fruit");
+				oSelectAll.onchange=function()
+				{
+					if(this.checked){
+						for(var i=0;i<oFruit.length;i++)
+						{
+							oFruit[i].checked=true;
+						}
+					}else{
+						for(var i=0;i<oFruit.length;i++)
+						{
+							oFruit[i].checked=false;
+						}
+					}
+				};
+<div id="">
+			<p><label><input type="checkbox" name="" id="selectAll" value="" />全选</label></p>
+			<label><input type="checkbox" name="fruit" id="" value="苹果" />苹果</label>
+			<label><input type="checkbox" name="fruit" id="" value="香蕉" />香蕉</label>
+			<label><input type="checkbox" name="fruit" id="" value="西瓜" />西瓜</label>
+		</div>
+
 window.onload=function()
 
 			/*123*/
