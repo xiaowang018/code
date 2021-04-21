@@ -1,4 +1,15 @@
 <!DOCTYPE html>
+	<div id="">
+			<span id="">
+				789
+			</span>
+		</div>
+		<p>456</p>
+		jQuery(document).ready(function(){
+					jQuery("div span").css("color","red");
+					jQuery("div span").css("font-size","20px");
+				})
+		
 <html>
 	<head>
 		<meta charset="utf-8" />
@@ -820,3 +831,4 @@ function xx2(a,b){
 
 </body>
 </html>
+
