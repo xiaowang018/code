@@ -1,3 +1,546 @@
+<!DOCTYPE html>	
+<html>
+  <head>
+    <title>index</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<script src="jquery.js"></script>
+<style>
+	/*炮弹样式*/
+	.paodan_img {
+	  border-width:0px;
+	  position:absolute;
+	  left:0px;
+	  top:800px;
+	  width:15px;
+	  height:40px;
+	  z-index:999
+	}
+	body {
+	  width:600px;
+	  margin-left:auto;
+	  margin-right:auto;
+	}
+	img{ 
+	  		   width:100%;
+	    height:100%;
+	  		   position: inherit;
+	  		 }
+	#u1 {
+	  position:absolute;
+	  width:600px;
+	  height:800px;
+	  overflow:hidden;
+	}
+	
+	/*敌机样式*/
+	.enemyFly_img {
+	  border-width:0px;
+	  position:absolute;
+	  left:0px;
+	  top:-40px;
+	  width:60px;
+	  height:40px;
+	  z-index:999
+	}
+	
+	/*炮弹爆炸样式*/
+	.pandan_bz {
+	  border-width:0px;
+	  position:absolute;
+	  left:0px;
+	  top:-40px;
+	  width:20px;
+	  height:20px;
+	  z-index:990
+	}
+	
+	/*飞机爆炸样式*/
+	.baozha_2 {
+	  border-width:0px;
+	  position:absolute;
+	  left:0px;
+	  top:-40px;
+	  width:60px;
+	  height:60px;
+	  z-index:990
+	}
+	
+</style>	
+</head>
+
+  <body onkeydown="mainBox.keyDownAction()" onkeyup="mainBox.keyUpAction()">
+ <div id="base">
+      <!-- bg2 (图像) -->
+      <div id="u1" data-label="bg2" >
+	
+       <img id="u1_img"  src="bg_dz.jpg" style="top:0px ;"/>
+       <img id="u3_img"  src="bg_dz (1).jpg" style="top:-800px ;" /> 
+		   
+	   <div id="playFly" style="position: absolute; top: 600px; left: 280px; width: 100px; height: 60px;  
+	   background-image:url(wofang_dz.png);background-position: center; background-size: 100% 100%;"></div>
+	   <h3 id="fff" style="position: absolute; top: -10px; left: 500px;color: white; opacity:0.9;">0</h3>
+	   <h1 id="over" style="position: absolute;top: 300px; left: 230px;color: white; "></h1>
+	   <progress style="position: absolute; top: 10px; left: 10px;z-index:1101; opacity:0.8; width: 200px;" id="HP" class="HP" max="100" value="100">
+      </div>     
+</div>
+  </body>
+  
+  <script>
+	  //碰撞判断器(判断两个矩形是否相交 相交返回真 否则返回假  两个中心点间的距obj1 obj2边长和的一半则相交)
+	  function isTouch(obj1, obj2)
+	  {
+	  	var xMax = (obj1.width+obj2.width)/2;
+	  	var yMax = (obj1.height+obj2.height)/2;
+	  	
+	  	var xRange = Math.abs(obj1.offsetLeft+obj1.width/2 - (obj2.offsetLeft + obj2.width/2));
+	  	var yRange = Math.abs(obj1.offsetTop+obj1.height/2 - (obj2.offsetTop + obj2.height/2));
+	  	
+	  	if(xRange < xMax-6 && yRange < yMax-6)
+	  	{
+	  		return true;
+	  	}
+	  	else
+	  	{
+	  		return false;
+	  	}
+	  }
+
+
+	  
+  	 function baseBox(h,w,spd,x,y,obj)
+  	 {
+  		 this.child = obj;
+  		 //体积
+  		 this.height = h;
+  		 this.width = w;
+  		 //移动速度
+  		 this.moveSpeed = spd;
+  		 //位置
+  		 this.x = x;
+  		 this.y = y;
+		 
+		
+  	 }
+  	 
+  	 function _playerFly()  //玩家飞机（模拟类）
+  	 {
+  		 this.base = new baseBox(60,100,5,270,600,this); 
+  		 //HP
+  		 this.HP = 100;
+  		 //发射速度
+  		
+		 this.fireFps =0;
+		 this.fireCyc = 5;
+		 this.bombFps = 500;
+  	 }
+  	 _playerFly.prototype =  //模拟类的公共对象（共享、不会被复制）
+  	 {
+		 //玩家飞机对象
+		 box:function(){return $('#playFly')[0]}
+		 ,
+  		 //移动方法
+  		 move:function()
+  		 {
+			 var p = $('#playFly');
+			 var x = this.box().offsetLeft;
+			 var y = this.box().offsetTop;
+			 x = x+(mainBox.keyA+mainBox.keyD)*this.base.moveSpeed;
+			 y = y+(mainBox.keyS+mainBox.keyW)*this.base.moveSpeed;
+			 play.offsetLeft=x;
+			 play.offsetTop=y;
+			 play.width=60;
+			 play.height=100;
+			 if(y>=0 && y <= 740)
+			 {
+			 $(this.box()).css("top",y);
+			 }
+			
+			  if(x >=0 && x <= 500)
+			  {
+			 $(this.box()).css("left",x);
+			 }
+		 },
+  		 //攻击方法
+  		 fire:function()
+  		 {
+			//判断是否按了开火（ENTER）
+			 if(mainBox.keyEnter == 1 && this.fireFps%this.fireCyc == 0)
+			 {
+				 //var p = $('#playFly')[0];
+				 var pd = new _ammunition();
+				 pd.create(this.box().offsetLeft+this.box().offsetWidth/2,this.box().offsetTop);
+				 mainBox.paodan.push(pd);
+			 }
+			 this.fireFps++;
+		 },
+  		 //被攻击方法
+  		 underAttack:function()
+  		 {
+			 document.getElementById("HP").value-=1;
+		 },
+  	 }
+  	 //炮弹对象
+  	 function _ammunition()
+  	 {
+  		 this.base = new baseBox(15,40,6,0,0,this); 
+  		 //伤害
+  		 this.power = 1;
+		 //炮弹在界面上的图片对象
+		 this.pd_img = null;
+		 
+		 this.isBomb = false;
+		 this.bombFps = 40;
+  	 }
+	 _ammunition.prototype =
+	 {
+		 create:function(posx,posy) //生成界面上的炮弹
+		 {
+			 var pdimg = document.createElement("img");//创建一个图片对象
+			 pdimg.setAttribute("class",'paodan_img');//设置图片对象的样式
+			 pdimg.setAttribute("src","paodan.png");//设置图片
+			 //设置炮弹发射时候的位置
+			 pdimg.style.left = posx-this.base.width/2+12 + "px"; //炮弹中部对齐飞机中部
+			 // -this.height 为了将子弹发射位置放到飞机前部，pFly.moveSpeed 前移炮弹防止自己打死自己
+			 pdimg.style.top = posy-this.base.height- play.base.moveSpeed+ "px"; 
+			 //将炮弹图像放入主框架，并且将appendChild返回的值存入炮弹的图片属性，以便访问
+			 this.pd_img = mainBox.box().appendChild(pdimg);
+		 },
+		 move:function()
+		 {	
+			if(this.isBomb)
+			{
+				return;
+			}
+			 if(this.pd_img.offsetTop + this.base.height <= 0)
+			 {
+				 mainBox.box().removeChild(this.pd_img);
+				 return true;
+			 }
+			 else
+			 {
+				this.pd_img.style.top = this.pd_img.offsetTop - this.base.moveSpeed + 'px';
+				return false;
+			 }
+		 },
+		 bomb:function(power)
+		 {
+		 				 if(power)
+		 				 {
+
+		 					 this.pd_img.setAttribute("class",'pandan_bz');//设置图片对象的样式
+		 					 this.pd_img.setAttribute("src",'pandan_bz.gif');//设置图片
+							
+		 					 this.isBomb = true;
+		 				 }
+		 }
+		 
+	 }
+  
+  	 var backGround = //背景对象（唯一）
+  	 {
+  		 moveSpeed:1,
+  		 bg1:$("#u1_img")[0],
+  		 bg2: $("#u3_img")[0],
+  		 move:function() //背景移动方法
+  		 {
+  				 //取出两个背景的Y轴位置		 
+  			 	var bg1y= this.bg1.style.top.replace("px","")*1+this.moveSpeed;
+  			 	var bg2y = this.bg2.style.top.replace("px","")*1+this.moveSpeed;
+  			 	//如果移动到底部则从界面顶部开始下移
+  			 	if(bg1y >= mainBox.height)
+  			 	{
+  			 		bg1y = this.bg1.style.top.replace("px","")*1-2*mainBox.height+this.moveSpeed;
+  			 	}
+  			 	if(bg2y >= mainBox.height)
+  			 	{
+  			 		bg2y = this.bg2.style.top.replace("px","")*1- 2*mainBox.height+this.moveSpeed;
+  			 	}
+  			 	
+  			 	this.bg1.style.top = bg1y+"px";
+  			 	this.bg2.style.top = bg2y+"px";
+  		 }
+  	 }
+  	
+  	
+  	var mainBox = //主框架对象（唯一）
+  	{
+  			 width:600,
+  			 height:800,
+  			 //按键状态
+  			 keyW : 0,
+  			 keyS : 0,
+  			 keyA : 0,
+  			 keyD : 0,
+  			 keyEnter : 0,
+			 //炮弹对象组
+			 paodan : new Array(),
+			 //敌机对象组
+			 enemy : new Array(),
+			 fff :0,
+			 box: function(){return $('#u1')[0]},
+			 
+			 enemyCreatFps:0,
+			 enemyCreatCyc:10,
+  			 //响应按键
+  			 keyDownAction:function()
+  			 {
+  			   			 var e = e || window.event;  //标准化事件处理
+  			   			 			  		switch(e.keyCode)
+  			   			 			  		{
+  			   			 			  			case 65 : //a A 左 
+  			   			 			  				this.keyA = -1;
+  			   			 			  				break;
+  			   			 			  			case 68 : //d D 右 
+  			   			 			  				 this.keyD = 1;
+  			   			 			  				break;
+  			   			 			  			case 83 : //s S  下
+  			   			 			  				this.keyS = 1;
+  			   			 			  				break;
+  			   			 			  			case 87 : //w W 上 
+  			   			 			  				this.keyW =  -1;
+  			   			 			  				break;
+  			   			 						case 13 : //发射子弹
+  			   			 							this.keyEnter = 1;
+  			   			 							break;
+  			   			 			  		};
+  			 },
+  			 keyUpAction :function()
+  			 {
+  			 			  var e = e || window.event;  //标准化事件处理
+  			 			  		switch(e.keyCode)
+  			 			  		{
+  			 			  			case 65 : //a A 左 
+  			 			  				this.keyA = 0;
+  			 			  				break;
+  			 			  			case 68 : //d D 右 
+  			 			  				 this.keyD = 0;
+  			 			  				break;
+  			 			  			case 83 : //s S  下
+  			 			  				this.keyS = 0;
+  			 			  				break;
+  			 			  			case 87 : //w W 上 
+  			 			  				this.keyW =  0;
+  			 			  				break;
+  			 						case 13 : //发射子弹
+  			 							this.keyEnter = 0;
+  			 							break;
+  			 			  		}
+  			 } 
+			 
+  	};
+  	
+	
+	//随机函数生成器
+	function getRndInteger(min, max) 
+	{ 
+	   return Math.floor(Math.random() * (max - min) ) + min; 
+	} 
+	
+	//敌机对象
+	function _enemy()
+	{
+	  		 this.base = new baseBox(15,40,3,0,0,this); 
+	  		 //伤害
+	  		 this.power = 1;
+			 this.HP = 7;
+			 //敌机在界面上的图片对象
+			 this.pd_img = null;
+			 this.img = ['diji_2.png','diji_zd.png','wofang_dz.png'];
+			 
+			 this.isBomb = false;
+			 this.bombFps = 50;
+	}
+	_enemy.prototype =
+	{
+			 create:function() //生成界面上的敌机
+			 {
+				 var pdimg = document.createElement("img");//创建一个图片对象
+				 pdimg.setAttribute("class",'enemyFly_img');//设置图片对象的样式
+				 pdimg.setAttribute("src",this.img[getRndInteger(0,3)]);//设置图片
+				 //设置敌机发射时候的位置
+				 pdimg.style.left = getRndInteger(0,600) + "px"; //敌机中部对齐飞机中部
+				 // -this.height 为了将子弹发射位置放到飞机前部，pFly.moveSpeed 前移敌机防止自己打死自己
+				 pdimg.style.top = "0px"; 
+				 //将敌机图像放入主框架，并且将appendChild返回的值存入敌机的图片属性，以便访问
+				 this.pd_img = mainBox.box().appendChild(pdimg);
+			 },
+			 move:function()
+			 {
+				 if(this.isBomb)
+				 {
+					return;
+				 }
+				 if(this.pd_img.offsetTop >= mainBox.height)
+				 {
+					 mainBox.box().removeChild(this.pd_img);
+					 return true;
+				 }
+				 else
+				 {
+					this.pd_img.style.top = this.pd_img.offsetTop + this.base.moveSpeed + 'px';
+					return false;
+				 }
+			 },
+			 bomb:function(power)
+			 {
+				 this.HP -= power;
+				 if(this.HP <= 0)
+				 {
+					 							 
+					 this.pd_img.setAttribute("class",'baozha_2');//设置图片对象的样式
+					 this.pd_img.setAttribute("src",'baozha_2.gif');//设置图片
+					 this.isBomb = true;
+				 }
+			 }
+	}
+		
+  	
+	var play = new _playerFly();
+	var stop=false
+  	function action() //每帧处理进程
+  	{	
+		//判断游戏是否结束
+		if(!stop){
+  		backGround.move();//背景移动
+		
+		play.move();//玩家飞机移动
+		play.fire();//玩家飞机开火
+		for(i=0;i<mainBox.paodan.length; i++)
+		{
+			if(mainBox.paodan[i].move())
+			{
+				mainBox.paodan.splice(i,1);
+				i--;
+			}
+		}
+		
+		if(mainBox.enemyCreatFps % mainBox.enemyCreatCyc == 0)
+		{
+			var em = new _enemy();
+			em.create();
+			mainBox.enemy.push(em);
+		}
+		mainBox.enemyCreatFps++;
+		
+		for(i=0;i<mainBox.enemy.length; i++)
+		{
+			if(mainBox.enemy[i].move())
+			{
+				mainBox.enemy.splice(i,1);
+				i--;
+			}
+		}
+		}
+		//判定炮弹敌机碰撞
+		for(i=0; i<mainBox.paodan.length; i++)
+		{
+			if(mainBox.paodan[i].isBomb)
+			{
+				continue;
+			}
+			for(j=0;j<mainBox.enemy.length; j++)
+			{
+				if(mainBox.enemy[j].isBomb)
+				{
+					continue;
+				}
+				if(isTouch(mainBox.paodan[i].pd_img,mainBox.enemy[j].pd_img))
+				{
+					//处理敌机
+					mainBox.enemy[j].bomb(mainBox.paodan[i].power);
+					//处理炮弹
+					mainBox.paodan[i].bomb(isTouch(mainBox.paodan[i].pd_img,mainBox.enemy[j].pd_img));
+					
+					
+				}
+			}
+		}
+		//判定本机和敌机碰撞
+		for(j=0;j<mainBox.enemy.length; j++)
+		{
+
+			if(isTouch(mainBox.enemy[j].pd_img,play.base.child))
+			{
+				
+				play.underAttack();//本机HP-1
+			}
+		}
+		//处理敌机爆炸
+		
+		for(i=0;i<mainBox.enemy.length; i++)
+		{
+			if(mainBox.enemy[i].isBomb)
+			{
+				mainBox.enemy[i].bombFps--;
+				if(mainBox.enemy[i].bombFps <=0)
+				{
+					//销毁敌机
+					mainBox.box().removeChild(mainBox.enemy[i].pd_img);
+					mainBox.enemy.splice(i,1);
+					
+					mainBox.fff+=10;	//得分+10
+					$("#fff").text(mainBox.fff);//更新得分
+				}
+			}
+		}
+		//处理炮弹爆炸
+		for(i=0;i<mainBox.paodan.length; i++)
+		{
+			
+			if(mainBox.paodan[i].isBomb)
+			{
+				
+				mainBox.paodan[i].bombFps--;
+
+				if(mainBox.paodan[i].bombFps <=0)
+				{
+					//销毁炮弹
+					mainBox.box().removeChild(mainBox.paodan[i].pd_img);		
+					mainBox.paodan.splice(i,1);
+					
+				}
+			}
+		}
+		
+		//处理本机爆炸
+		
+		         
+		         
+		var imgUrl = ["url(baozha_2.gif)","url()"]//图片数组
+		if($("#HP").val() <= 0){
+					// 设置爆炸图片
+					$('#playFly').css("backgroundImage", imgUrl[0]);
+					
+					//利用敌机控制爆炸消失
+					for(i=0;i<mainBox.enemy.length; i++)
+					{
+							
+							play.bombFps--;
+							if(play.bombFps <=0)
+							{	
+								//图片设置为空
+								$('#playFly').css("backgroundImage", imgUrl[1]);
+								//跳出循环
+								break;
+							}
+							
+					}
+					//游戏结束
+					stop=true;
+					//显示游戏结束
+					$('#over').text('游戏结束');
+								
+		}
+			
+  	}
+  	
+	
+  	setInterval(action, 20);//用时钟设置帧
+  	
+  	
+  </script>
+</html>
 <!DOCTYPE html>
 	<div id="">
 			<span id="">
