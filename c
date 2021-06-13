@@ -13,3 +13,22 @@
         {
         printf("%s is %d years old.\n",*(cur_name+i),*(cur_age+i));
         }
+ int oldprice,price=0,i=0;
+//    printf("%d",&oldprice);
+    scanf("%d",&oldprice);
+    printf("请输入价格:\n");
+
+    while (oldprice!=price) {
+        i++;
+        printf("参与者:");
+        scanf("%d",&price);
+        printf("主持人:");
+        if (price > oldprice) {
+            printf("高了\n");
+
+        } else if (price < oldprice) {
+            printf("低了\n");
+        } else {
+            printf("恭喜");
+        }
+    }
