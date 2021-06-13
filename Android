@@ -1,4 +1,542 @@
-   <TextView
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <ListView
+        android:id="@+id/listView_test"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="InvalidId,MissingConstraints"></ListView>
+
+
+</android.support.constraint.ConstraintLayout>
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/imageView_title"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:src="@mipmap/t1"
+            android:layout_marginLeft="10dp"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:layout_weight="1.0"
+            android:layout_marginLeft="10dp"
+            >
+            <TextView
+                android:id="@+id/textView_Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textColor="#000000"
+                android:textSize="20dp"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_weight="1.0"
+                android:layout_marginLeft="0dp"
+                >
+            <TextView
+                android:id="@+id/textView_SingerName"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:text="组织者"
+                android:layout_marginLeft="0dp"/>
+                <TextView
+                    android:id="@+id/textView_Singerpl"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:text="评论156"
+                    android:layout_marginLeft="20dp"/>
+                <TextView
+                    android:id="@+id/textView_SingerTime"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:text="3天前"
+                    android:layout_marginLeft="20dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+package com.example.myapplication;
+
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.List;
+
+public class Adapter extends ArrayAdapter {
+    public Adapter(Context context, int resource, @NonNull List<Model> objects) {
+        super(context, resource, objects);
+    }
+
+
+    @NonNull
+    @Override
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+
+        Model model= (Model) getItem(position);
+        View view= LayoutInflater.from(getContext()).inflate(R.layout.item,null);
+        ImageView imageView_title=view.findViewById(R.id.imageView_title);
+        TextView textView_Title=view.findViewById(R.id.textView_Title);
+        TextView textView_SingerName=view.findViewById(R.id.textView_SingerName);
+        TextView textView_Singerpl=view.findViewById(R.id.textView_Singerpl);
+        TextView textView_SingerTime=view.findViewById(R.id.textView_SingerTime);
+
+        imageView_title.setImageResource(model.titleSrc);
+        textView_Title.setText(model.musicTitle);
+        textView_SingerName.setText(model.singerName);
+        textView_Singerpl.setText(model.singerpl);
+        textView_SingerTime.setText(model.singerTime);
+
+
+
+        return view;
+    }
+}package com.example.myapplication;
+
+public class BodyModel {
+    public int status;
+    public String msg;
+    public ResultModel result;
+}
+package com.example.myapplication;
+
+import android.os.Handler;
+import android.os.Message;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.ListView;
+
+import com.google.gson.Gson;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.OkHttpClient;
+
+import static android.net.Uri.decode;
+
+
+public class MainActivity extends AppCompatActivity {
+    private ListView listView_test;
+    private List<Model> list=new ArrayList<>();
+    private List<NewsModel> newsModelList=new ArrayList<>();
+    private int[] imageViews = {R.mipmap.t1,R.mipmap.t2,R.mipmap.ic_launcher};
+    private static  OkHttpClient okHttpClient = new OkHttpClient();
+    private BodyModel bodyModel=new BodyModel();
+    private Handler mHandler = new Handler();
+    public static  final MediaType FORM_CONTENT_TYPE=MediaType.parse("application/json; charset=utf-8");
+    public void  getReponse()
+    {
+        final Request request=new Request.Builder()
+                .get()
+                .tag(this)
+                .url("http://open.liupai.net/news/get?appkey=e3ca9ed99e3d0539&channel=头条&num=&start=")
+                .build();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Response response = null;
+                try {
+                    response = okHttpClient.newCall(request).execute();
+                    if(response.isSuccessful())
+                    {
+                        Log.v("=======",response.body().string());
+                        //response 变成 Model对象
+                        //JSON字符串的反序列化
+                        String a=decode(response.body().string());
+
+                        Gson gson = new Gson();
+                        bodyModel=gson.fromJson(a,BodyModel.class);
+
+                        Message msg =new Message();
+                        msg.obj=bodyModel;
+                        mHandler.sendMessage(msg);
+
+//                        newsModelList=bod
+                    }
+                    else
+                    {
+                        throw new IOException("意外代码：" + response);
+                    }
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+    @Override
+
+
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        listView_test=findViewById(R.id.listView_test);
+        List<Model> list=new ArrayList<Model>();
+        getReponse();
+        Model m1=new Model();
+        m1.titleSrc=imageViews[0];
+        m1.musicTitle="2021年，农村社保新政";
+        m1.singerName="三农八卦";
+        m1.singerpl="1561评论";
+        m1.singerTime="2月前";
+        list.add(m1);
+
+        Model m2=new Model();
+        m2.titleSrc=imageViews[1];
+        m2.musicTitle="解密1979年中越战争";
+        m2.singerName="八卦";
+        m2.singerpl="161评论";
+        m2.singerTime="1月前";
+        list.add(m2);
+
+
+        NewsAdapter newsAdapter=new NewsAdapter(
+                getApplicationContext(),R.layout.item,newsModelList
+        );
+        listView_test.setAdapter(newsAdapter);
+//
+//        Adapter adapter=new Adapter(getApplicationContext(),R.layout.item,list);
+//
+//        listView_test.setAdapter(adapter);
+        mHandler =new Handler(){
+            public void handleMessage(@NonNull Message msg){
+                super.handleMessage(msg);
+                bodyModel=(BodyModel) msg.obj;
+                NewsAdapter newsAdapter=new NewsAdapter(
+                        getApplicationContext(),
+                        R.layout.item,
+                        bodyModel.result.list);
+                listView_test.setAdapter(newsAdapter);
+            }
+        };
+    }
+}
+package com.example.myapplication;
+
+public class Model {
+
+        public int titleSrc;
+        public String musicTitle;
+        public String singerName;
+        public String singerpl;
+        public String singerTime;
+
+}
+package com.example.myapplication;
+
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.List;
+
+public class NewsAdapter extends ArrayAdapter {
+    public NewsAdapter(Context context, int resource, @NonNull List<NewsModel> objects) {
+        super(context, resource, objects);
+    }
+
+    @NonNull
+    @Override
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+
+        NewsModel model= (NewsModel) getItem(position);
+        View view= LayoutInflater.from(getContext()).inflate(R.layout.item,null);
+        ImageView imageView_title=view.findViewById(R.id.imageView_title);
+        TextView textView_Title=view.findViewById(R.id.textView_Title);
+        TextView textView_SingerName=view.findViewById(R.id.textView_SingerName);
+        TextView textView_Singerpl=view.findViewById(R.id.textView_Singerpl);
+        TextView textView_SingerTime=view.findViewById(R.id.textView_SingerTime);
+
+//        imageView_title.setImageResource(null);
+        textView_Title.setText(model.title);
+//        textView_SingerName.setText(model.);
+//        textView_Singerpl.setText(model.singerpl);
+        textView_SingerTime.setText(model.time);
+
+
+
+        return view;
+    }
+
+}
+package com.example.myapplication;
+
+public class NewsModel {
+    public String title;
+    public String time;
+    public String category;
+    public String pic;
+    public String content;
+    public String url;
+    public String weburl;
+
+}
+package com.example.myapplication;
+
+import java.util.List;
+
+public class ResultModel {
+    public String channel;
+    public int num;
+    public List<NewsModel> list;
+}
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+package com.example.myapplication;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+}
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+    android:background="@mipmap/bg"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign Up"
+        android:textSize="36sp"
+        android:textColor="#ffffff"
+        android:layout_marginTop="50dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-------------------\nABC"
+        android:layout_margin="20dp"
+        android:textSize="28sp"
+        android:textColor="#ffffff"
+        android:gravity="center_horizontal"/>
+    <!--
+    android:src=""      指定前景图片资源
+    android:background=""   设置背景
+    -->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/add_photo" />
+
+    <!--<ImageButton-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:src="@mipmap/add_photo"/>-->
+    <!--
+    android:inputType       输入类型
+    textPassword    密码
+    number          只能正整数
+    numberSigned    整数
+    numberDecimal   小数
+    -->
+    <ProgressBar
+        android:id="@+id/pro_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:visibility="invisible"
+        android:layout_margin="10dp"/>
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:hint="Name and Surname"
+        android:gravity="center"
+        android:textColorHint="#cccccc"
+        android:background="@mipmap/border"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:hint="Email Address"
+        android:gravity="center"
+        android:textColorHint="#cccccc"
+        android:background="@mipmap/border"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:hint="Phone"
+        android:gravity="center"
+        android:textColorHint="#cccccc"
+        android:background="@mipmap/border"/>
+
+    <EditText
+        android:id="@+id/pwd"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:hint="Password"
+        android:gravity="center"
+        android:textColorHint="#cccccc"
+        android:background="@mipmap/border"
+        android:inputType="textPassword"
+        android:maxLength="12"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:background="@mipmap/btn"
+        android:text="Register"
+        android:onClick="register"/>
+</LinearLayout>
+package com.example.myapplication;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main2);
+
+    }
+}
+package com.example.myapplication;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+
+public class MainActivity2 extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main2);
+    }
+}
+package com.example.myapplication;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+}
+
+
+
+</LinearLayout>  
+ <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textSize="22sp"
